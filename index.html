@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>横浜市営バスナビ（非公式）</title>
+<style>
+:root{--blue:#0059A8;--deep:#002E5C;}
+*{box-sizing:border-box;}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;line-height:1.8;color:#1a1a1a;margin:0;background:#f7f9fc;}
+.hero{background:linear-gradient(135deg,var(--blue),var(--deep));color:#fff;padding:48px 20px 40px;text-align:center;border-radius:0 0 24px 24px;}
+.hero h1{font-size:1.8rem;margin:0 0 6px;}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:3px 12px;font-size:.8rem;margin-bottom:10px;}
+.hero p{margin:8px auto 0;max-width:560px;opacity:.95;}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 48px;}
+h2{font-size:1.15rem;color:var(--blue);margin-top:1.8em;}
+.features{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.features li{background:#fff;border:1px solid #e3e9f2;border-radius:12px;padding:12px 14px;}
+.features b{color:var(--blue);}
+.links{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;}
+.links a{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;padding:10px 18px;border-radius:999px;font-weight:600;}
+.links a.sub{background:#fff;color:var(--blue);border:1px solid var(--blue);}
+.note{background:#eef4fb;border-left:4px solid var(--blue);padding:10px 14px;border-radius:6px;font-size:.95rem;}
+footer{text-align:center;color:#666;font-size:.85rem;margin-top:2.4em;}
+@media(max-width:480px){.features{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="hero">
+<span class="badge">非公式アプリ</span>
+<h1>横浜市営バスナビ</h1>
+<p>横浜市営バスに特化した、時刻表・接近情報・ルート検索・地図・通知アプリ。</p>
+</div>
+<div class="wrap">
+<p class="note">本アプリは横浜市交通局が提供する公式アプリではない、<strong>非公式アプリ</strong>です。バスの時刻表・運行データは公共交通オープンデータセンター（ODPT）／横浜市交通局の公開データを利用しています。</p>
+
+<h2>主な機能</h2>
+<ul class="features">
+<li><b>時刻表</b><br>方面・のりば・系統ごとの時刻表</li>
+<li><b>接近情報</b><br>今どこ？ 何個前？ 混雑状況も</li>
+<li><b>お気に入り</b><br>よく使う停留所をまとめて確認</li>
+<li><b>ルート検索</b><br>出発・到着・始発・最終で検索</li>
+<li><b>地図</b><br>バス位置・現在地・鉄道駅を表示</li>
+<li><b>通知</b><br>乗り忘れ・降車アラーム</li>
+</ul>
+
+<h2>リンク</h2>
+<div class="links">
+<a class="sub" href="privacy.html">プライバシーポリシー</a>
+<a class="sub" href="mailto:amk.work01@gmail.com">お問い合わせ</a>
+</div>
+
+<footer>© 2026 KA-Laboratory ／ 横浜市営バスナビ（非公式）</footer>
+</div>
+</body>
+</html>
