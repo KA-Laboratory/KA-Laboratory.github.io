@@ -4,35 +4,58 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>横浜市営バスナビ（非公式）</title>
+<meta name="description" content="横浜市営バスに特化した非公式バスナビ。時刻表・接近情報・ルート検索・地図・通知。iOS / Android 対応。">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
 <style>
 :root{--blue:#0059A8;--deep:#002E5C;}
 *{box-sizing:border-box;}
 body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;line-height:1.8;color:#1a1a1a;margin:0;background:#f7f9fc;}
-.hero{background:linear-gradient(135deg,var(--blue),var(--deep));color:#fff;padding:48px 20px 40px;text-align:center;border-radius:0 0 24px 24px;}
+.hero{background:linear-gradient(135deg,var(--blue),var(--deep));color:#fff;padding:44px 20px 40px;text-align:center;border-radius:0 0 24px 24px;}
+.appicon{width:104px;height:104px;border-radius:23%;box-shadow:0 10px 26px rgba(0,0,0,.28);margin-bottom:14px;display:block;margin-left:auto;margin-right:auto;background:#fff;}
 .hero h1{font-size:1.8rem;margin:0 0 6px;}
-.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:3px 12px;font-size:.8rem;margin-bottom:10px;}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:3px 12px;font-size:.8rem;margin-bottom:12px;}
 .hero p{margin:8px auto 0;max-width:560px;opacity:.95;}
 .wrap{max-width:720px;margin:0 auto;padding:24px 16px 48px;}
 h2{font-size:1.15rem;color:var(--blue);margin-top:1.8em;}
 .features{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .features li{background:#fff;border:1px solid #e3e9f2;border-radius:12px;padding:12px 14px;}
 .features b{color:var(--blue);}
+.stores{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px;}
+.store{display:flex;align-items:center;gap:10px;background:#111;color:#fff;text-decoration:none;padding:10px 18px;border-radius:12px;min-width:210px;transition:opacity .15s;}
+.store:hover{opacity:.88;}
+.store svg{width:24px;height:24px;flex:none;fill:#fff;}
+.store .t{display:flex;flex-direction:column;line-height:1.15;}
+.store .t small{font-size:.7rem;opacity:.85;}
+.store .t strong{font-size:1.05rem;}
 .links{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;}
-.links a{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;padding:10px 18px;border-radius:999px;font-weight:600;}
-.links a.sub{background:#fff;color:var(--blue);border:1px solid var(--blue);}
+.links a{display:inline-block;background:#fff;color:var(--blue);border:1px solid var(--blue);text-decoration:none;padding:10px 18px;border-radius:999px;font-weight:600;}
 .note{background:#eef4fb;border-left:4px solid var(--blue);padding:10px 14px;border-radius:6px;font-size:.95rem;}
 footer{text-align:center;color:#666;font-size:.85rem;margin-top:2.4em;}
-@media(max-width:480px){.features{grid-template-columns:1fr;}}
+@media(max-width:480px){.features{grid-template-columns:1fr;}.store{flex:1 1 100%;}}
 </style>
 </head>
 <body>
 <div class="hero">
-<span class="badge">非公式アプリ</span>
+<img class="appicon" src="icon.png" alt="横浜市営バスナビ アイコン" width="104" height="104">
+<div><span class="badge">非公式アプリ</span></div>
 <h1>横浜市営バスナビ</h1>
-<p>横浜市営バスに特化した、時刻表・接近情報・ルート検索・地図・通知アプリ。</p>
+<p>横浜市営バスに特化した、時刻表・接近情報・ルート検索・地図・通知アプリ。iOS / Android 対応。</p>
 </div>
 <div class="wrap">
 <p class="note">本アプリは横浜市交通局が提供する公式アプリではない、<strong>非公式アプリ</strong>です。バスの時刻表・運行データは公共交通オープンデータセンター（ODPT）／横浜市交通局の公開データを利用しています。</p>
+
+<h2>ダウンロード</h2>
+<div class="stores">
+<a class="store" href="https://apps.apple.com/jp/app/id6786124457">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c0 1.11-.41 2.15-1.1 2.92-.74.84-1.95 1.49-2.97 1.41-.13-1.07.4-2.2 1.06-2.93.75-.83 2.02-1.45 3.01-1.4zM20.5 17.02c-.55 1.27-.81 1.83-1.52 2.95-.98 1.53-2.36 3.44-4.07 3.46-1.52.01-1.91-.99-3.97-.98-2.06.01-2.49 1-4.01.99-1.71-.02-3.02-1.74-4-3.27C.18 15.96-.11 10.66 1.93 7.94c.99-1.35 2.55-2.2 4.03-2.2 1.5 0 2.45 1.01 3.7 1.01 1.21 0 1.95-1.01 3.69-1.01 1.32 0 2.71.72 3.71 1.96-3.26 1.79-2.73 6.46.44 8.32z"/></svg>
+<span class="t"><small>ダウンロード</small><strong>App Store</strong></span>
+</a>
+<a class="store" href="https://play.google.com/store/apps/details?id=com.yokohamashieibusnavi.app">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg>
+<span class="t"><small>ダウンロード</small><strong>Google Play</strong></span>
+</a>
+</div>
 
 <h2>主な機能</h2>
 <ul class="features">
@@ -40,14 +63,14 @@ footer{text-align:center;color:#666;font-size:.85rem;margin-top:2.4em;}
 <li><b>接近情報</b><br>今どこ？ 何個前？ 混雑状況も</li>
 <li><b>お気に入り</b><br>よく使う停留所をまとめて確認</li>
 <li><b>ルート検索</b><br>出発・到着・始発・最終で検索</li>
-<li><b>地図</b><br>バス位置・現在地・鉄道駅を表示</li>
+<li><b>地図</b><br>バス位置・のりば・現在地・鉄道駅</li>
 <li><b>通知</b><br>乗り忘れ・降車アラーム</li>
 </ul>
 
 <h2>リンク</h2>
 <div class="links">
-<a class="sub" href="privacy.html">プライバシーポリシー</a>
-<a class="sub" href="mailto:amk.work01@gmail.com">お問い合わせ</a>
+<a href="privacy.html">プライバシーポリシー</a>
+<a href="mailto:amk.work01@gmail.com">お問い合わせ</a>
 </div>
 
 <footer>© 2026 KA-Laboratory ／ 横浜市営バスナビ（非公式）</footer>
