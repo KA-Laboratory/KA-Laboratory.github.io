@@ -3,77 +3,244 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>横浜市営バスナビ（非公式）</title>
-<meta name="description" content="横浜市営バスに特化した非公式バスナビ。時刻表・接近情報・ルート検索・地図・通知。iOS / Android 対応。">
+<title>横浜市営バスナビ（非公式）｜時刻表・接近情報・ルート検索</title>
+<meta name="description" content="横浜市営バスに特化した非公式バスナビ。時刻表・接近情報・遅延・ルート検索・地図・通知。iOS / Android 対応。">
+<meta property="og:title" content="横浜市営バスナビ（非公式）">
+<meta property="og:description" content="横浜市営バスに特化した非公式バスナビ。時刻表・接近情報・遅延・ルート検索・地図・通知。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://ka-laboratory.github.io/icon.png">
 <link rel="icon" href="icon.png">
 <link rel="apple-touch-icon" href="icon.png">
 <style>
-:root{--blue:#0059A8;--deep:#002E5C;}
+:root{
+  --blue:#0059A8;--deep:#002E5C;--sky:#17579F;--ink:#0b1b30;
+  --amber:#FFA318;--amber-ink:#2A1F05;
+  --bg:#eef3f9;--card:#ffffff;--line:#e0e8f2;--text:#1a2230;--muted:#5b6b80;
+  --radius:16px;--shadow:0 12px 30px rgba(9,42,85,.10);
+}
 *{box-sizing:border-box;}
-body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;line-height:1.8;color:#1a1a1a;margin:0;background:#f7f9fc;}
-.hero{background:linear-gradient(135deg,var(--blue),var(--deep));color:#fff;padding:44px 20px 40px;text-align:center;border-radius:0 0 24px 24px;}
-.appicon{width:104px;height:104px;border-radius:23%;box-shadow:0 10px 26px rgba(0,0,0,.28);margin-bottom:14px;display:block;margin-left:auto;margin-right:auto;background:#fff;}
-.hero h1{font-size:1.8rem;margin:0 0 6px;}
-.badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:3px 12px;font-size:.8rem;margin-bottom:12px;}
-.hero p{margin:8px auto 0;max-width:560px;opacity:.95;}
-.wrap{max-width:720px;margin:0 auto;padding:24px 16px 48px;}
-h2{font-size:1.15rem;color:var(--blue);margin-top:1.8em;}
-.features{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.features li{background:#fff;border:1px solid #e3e9f2;border-radius:12px;padding:12px 14px;}
-.features b{color:var(--blue);}
-.stores{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px;}
-.store{display:flex;align-items:center;gap:10px;background:#111;color:#fff;text-decoration:none;padding:10px 18px;border-radius:12px;min-width:210px;transition:opacity .15s;}
-.store:hover{opacity:.88;}
-.store svg{width:24px;height:24px;flex:none;fill:#fff;}
-.store .t{display:flex;flex-direction:column;line-height:1.15;}
-.store .t small{font-size:.7rem;opacity:.85;}
-.store .t strong{font-size:1.05rem;}
-.links{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;}
-.links a{display:inline-block;background:#fff;color:var(--blue);border:1px solid var(--blue);text-decoration:none;padding:10px 18px;border-radius:999px;font-weight:600;}
-.note{background:#eef4fb;border-left:4px solid var(--blue);padding:10px 14px;border-radius:6px;font-size:.95rem;}
-footer{text-align:center;color:#666;font-size:.85rem;margin-top:2.4em;}
-@media(max-width:480px){.features{grid-template-columns:1fr;}.store{flex:1 1 100%;}}
+html{scroll-behavior:smooth;}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
+  line-height:1.8;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;}
+a{color:var(--blue);}
+.wrap{max-width:920px;margin:0 auto;padding:0 18px;}
+
+/* header */
+.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.82);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);}
+.nav .wrap{display:flex;align-items:center;gap:10px;height:58px;}
+.nav img{width:32px;height:32px;border-radius:8px;}
+.nav .name{font-weight:800;color:var(--deep);letter-spacing:.02em;}
+.nav .name small{display:block;font-weight:600;font-size:.62rem;color:var(--muted);letter-spacing:.12em;}
+.nav .spacer{flex:1;}
+.nav .cta{background:var(--blue);color:#fff;text-decoration:none;font-weight:700;font-size:.9rem;
+  padding:8px 16px;border-radius:999px;transition:transform .15s,box-shadow .15s;}
+.nav .cta:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,89,168,.35);}
+
+/* hero */
+.hero{background:linear-gradient(150deg,#17579F,#092A55);color:#fff;padding:44px 0 56px;position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at 24% 14%,rgba(255,255,255,.10),transparent 70%);pointer-events:none;}
+.hero .wrap{position:relative;z-index:1;}
+.fg{display:block;width:100%;max-width:720px;margin:0 auto;border-radius:20px;
+  box-shadow:0 24px 60px rgba(0,0,0,.38);border:1px solid rgba(255,255,255,.12);}
+.stores{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:26px;}
+.store{display:flex;align-items:center;gap:11px;background:#0c1622;color:#fff;text-decoration:none;
+  padding:12px 22px;border-radius:14px;min-width:220px;border:1px solid rgba(255,255,255,.14);
+  transition:transform .15s,box-shadow .15s,background .15s;}
+.store:hover{transform:translateY(-2px);background:#0f1d2e;box-shadow:0 12px 26px rgba(0,0,0,.35);}
+.store svg{width:26px;height:26px;flex:none;fill:#fff;}
+.store .t{display:flex;flex-direction:column;line-height:1.15;text-align:left;}
+.store .t small{font-size:.7rem;opacity:.82;}
+.store .t strong{font-size:1.08rem;}
+.unofficial{max-width:640px;margin:22px auto 0;text-align:center;font-size:.86rem;color:#cfe0f2;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px 16px;}
+
+/* sections */
+section{padding:40px 0;}
+.eyebrow{display:inline-block;font-size:.74rem;font-weight:800;letter-spacing:.16em;color:var(--blue);
+  background:#e6f0fb;border-radius:999px;padding:4px 12px;margin-bottom:10px;}
+h2{font-size:1.5rem;color:var(--deep);margin:.1em 0 .5em;letter-spacing:.01em;}
+.lead{color:var(--muted);margin-top:0;}
+
+/* whats new */
+.new{background:linear-gradient(135deg,#fff7ea,#fdeecf);border:1px solid #f4dca6;border-radius:var(--radius);
+  padding:22px 22px 8px;box-shadow:var(--shadow);}
+.new .ver{display:inline-block;background:var(--amber);color:var(--amber-ink);font-weight:800;
+  border-radius:999px;padding:3px 12px;font-size:.8rem;margin-bottom:6px;}
+.new ul{list-style:none;padding:0;margin:12px 0 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.new li{position:relative;padding-left:26px;}
+.new li::before{content:"";position:absolute;left:2px;top:.55em;width:12px;height:12px;border-radius:50%;
+  background:var(--amber);box-shadow:0 0 0 4px rgba(255,163,24,.18);}
+
+/* features */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.feat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;
+  box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s;}
+.feat:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(9,42,85,.16);}
+.feat .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;margin-bottom:10px;
+  background:linear-gradient(135deg,#0d5aa8,#0a3d78);}
+.feat .ic svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.feat b{display:block;color:var(--deep);font-size:1.02rem;}
+.feat span{color:var(--muted);font-size:.92rem;}
+
+/* sources */
+.sources{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);}
+.sources ul{margin:6px 0 0;padding-left:1.2em;color:var(--muted);}
+.sources li{margin:.35em 0;}
+.sources a{word-break:break-all;}
+
+/* links */
+.links{display:flex;flex-wrap:wrap;gap:12px;}
+.links a{display:inline-flex;align-items:center;gap:8px;background:var(--card);color:var(--blue);
+  border:1px solid var(--blue);text-decoration:none;padding:11px 20px;border-radius:999px;font-weight:700;
+  transition:background .15s,color .15s;}
+.links a:hover{background:var(--blue);color:#fff;}
+
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 16px 44px;border-top:1px solid var(--line);}
+
+/* entrance animation */
+.reveal{opacity:0;transform:translateY(14px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards;}
+@keyframes rise{to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1;transform:none;}}
+
+@media(max-width:640px){
+  h2{font-size:1.3rem;}
+  .grid{grid-template-columns:1fr 1fr;}
+  .new ul{grid-template-columns:1fr;}
+  .store{flex:1 1 100%;}
+}
+@media(max-width:420px){.grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
+
+<header class="nav">
+  <div class="wrap">
+    <img src="icon.png" alt="横浜市営バスナビ アイコン">
+    <div class="name">横浜市営バスナビ<small>YOKOHAMA CITY BUS NAVI</small></div>
+    <div class="spacer"></div>
+    <a class="cta" href="#download">入手する</a>
+  </div>
+</header>
+
 <div class="hero">
-<img class="appicon" src="icon.png" alt="横浜市営バスナビ アイコン" width="104" height="104">
-<div><span class="badge">非公式アプリ</span></div>
-<h1>横浜市営バスナビ</h1>
-<p>横浜市営バスに特化した、時刻表・接近情報・ルート検索・地図・通知アプリ。iOS / Android 対応。</p>
-</div>
-<div class="wrap">
-<p class="note">本アプリは横浜市交通局が提供する公式アプリではない、<strong>非公式アプリ</strong>です。バスの時刻表・運行データは公共交通オープンデータセンター（ODPT）／横浜市交通局の公開データを利用しています。</p>
+  <div class="wrap">
+    <svg class="fg reveal" viewBox="0 0 1024 500" role="img" aria-label="横浜市営バスナビ — 時刻表・接近情報・ルート検索・地図（横浜市営バス対応・非公式）" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bodySF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDDCAC"/><stop offset="1" stop-color="#D3B97B"/></linearGradient>
+        <linearGradient id="glassSF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#17263A"/><stop offset="1" stop-color="#31587F"/></linearGradient>
+        <clipPath id="bodyClipSF"><rect x="104" y="96" width="304" height="300" rx="52"/></clipPath>
+        <clipPath id="glassClipSF"><rect x="136" y="170" width="240" height="92" rx="18"/></clipPath>
+        <linearGradient id="fgBg" x1="0" y1="0" x2="0.75" y2="1"><stop offset="0" stop-color="#17579F"/><stop offset="1" stop-color="#092A55"/></linearGradient>
+        <radialGradient id="fgGlow" cx="0.26" cy="0.18" r="0.75"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.10"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+      </defs>
+      <rect width="1024" height="500" fill="url(#fgBg)"/>
+      <rect width="1024" height="500" fill="url(#fgGlow)"/>
+      <g transform="translate(569.6,19) scale(0.9)">
+        <ellipse cx="256" cy="414" rx="150" ry="15" fill="#04203E" opacity="0.22"/>
+        <circle cx="176" cy="392" r="28" fill="#131B28"/><circle cx="336" cy="392" r="28" fill="#131B28"/>
+        <rect x="88" y="168" width="20" height="46" rx="9" fill="#D9C285"/><rect x="104" y="182" width="18" height="9" fill="#D9C285"/>
+        <rect x="404" y="168" width="20" height="46" rx="9" fill="#D9C285"/><rect x="390" y="182" width="18" height="9" fill="#D9C285"/>
+        <rect x="104" y="96" width="304" height="300" rx="52" fill="url(#bodySF)"/>
+        <g clip-path="url(#bodyClipSF)">
+          <rect x="104" y="96" width="304" height="9" fill="#FFFFFF" opacity="0.35"/>
+          <path d="M104 300 L190 300 L256 360 L322 300 L408 300 M256 352 L256 396" fill="none" stroke="#005FA8" stroke-width="34" stroke-linejoin="round"/>
+          <circle cx="256" cy="320" r="21" fill="#F2E5BC" stroke="#005FA8" stroke-width="5"/>
+          <path d="M256 309 L268 320 L256 331 L244 320 Z" fill="#005FA8"/>
+          <rect x="104" y="372" width="304" height="24" fill="#99A0A6"/>
+          <rect x="230" y="376" width="52" height="16" rx="3" fill="#12693A"/>
+          <rect x="128" y="376" width="34" height="16" rx="3" fill="#E9ECEF"/><rect x="131" y="379" width="28" height="10" rx="2" fill="#FF9D1E"/>
+          <rect x="350" y="376" width="34" height="16" rx="3" fill="#E9ECEF"/><rect x="353" y="379" width="28" height="10" rx="2" fill="#FF9D1E"/>
+        </g>
+        <rect x="164" y="114" width="184" height="42" rx="10" fill="#0F1216"/>
+        <rect x="180" y="128" width="34" height="16" rx="3" fill="#FFA318" opacity="0.95"/>
+        <circle cx="240" cy="136" r="4" fill="#FFA318"/><circle cx="260" cy="136" r="4" fill="#FFA318"/>
+        <circle cx="280" cy="136" r="4" fill="#FFA318"/><circle cx="300" cy="136" r="4" fill="#FFA318"/>
+        <rect x="136" y="170" width="240" height="92" rx="18" fill="url(#glassSF)"/>
+        <g clip-path="url(#glassClipSF)" fill="#FFFFFF"><path d="M156 170 h56 l-40 92 h-56 Z" opacity="0.14"/><path d="M236 170 h22 l-40 92 h-22 Z" opacity="0.12"/></g>
+        <rect x="114" y="322" width="64" height="34" rx="9" fill="#16191D"/><rect x="120" y="328" width="34" height="22" rx="6" fill="#EEF0F2"/>
+        <rect x="334" y="322" width="64" height="34" rx="9" fill="#16191D"/><rect x="358" y="328" width="34" height="22" rx="6" fill="#EEF0F2"/>
+      </g>
+      <text x="60" y="205" font-family="Noto Sans CJK JP, sans-serif" font-size="64" font-weight="700" fill="#FFFFFF">横浜市営バスナビ</text>
+      <rect x="60" y="228" width="512" height="8" rx="4" fill="#FFA318"/>
+      <text x="60" y="292" font-family="Noto Sans CJK JP, sans-serif" font-size="31" font-weight="500" fill="#DFE9F5">時刻表・接近情報・ルート検索・地図</text>
+      <rect x="60" y="330" width="400" height="52" rx="26" fill="#FFA318"/>
+      <text x="260" y="366" font-family="Noto Sans CJK JP, sans-serif" font-size="27" font-weight="700" fill="#2A1F05" text-anchor="middle">横浜市営バス対応・非公式</text>
+    </svg>
 
-<h2>ダウンロード</h2>
-<div class="stores">
-<a class="store" href="https://apps.apple.com/jp/app/id6786124457">
-<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c0 1.11-.41 2.15-1.1 2.92-.74.84-1.95 1.49-2.97 1.41-.13-1.07.4-2.2 1.06-2.93.75-.83 2.02-1.45 3.01-1.4zM20.5 17.02c-.55 1.27-.81 1.83-1.52 2.95-.98 1.53-2.36 3.44-4.07 3.46-1.52.01-1.91-.99-3.97-.98-2.06.01-2.49 1-4.01.99-1.71-.02-3.02-1.74-4-3.27C.18 15.96-.11 10.66 1.93 7.94c.99-1.35 2.55-2.2 4.03-2.2 1.5 0 2.45 1.01 3.7 1.01 1.21 0 1.95-1.01 3.69-1.01 1.32 0 2.71.72 3.71 1.96-3.26 1.79-2.73 6.46.44 8.32z"/></svg>
-<span class="t"><small>ダウンロード</small><strong>App Store</strong></span>
-</a>
-<a class="store" href="https://play.google.com/store/apps/details?id=com.yokohamashieibusnavi.app">
-<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg>
-<span class="t"><small>ダウンロード</small><strong>Google Play</strong></span>
-</a>
+    <div class="stores" id="download">
+      <a class="store" href="https://apps.apple.com/jp/app/id6786124457">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c0 1.11-.41 2.15-1.1 2.92-.74.84-1.95 1.49-2.97 1.41-.13-1.07.4-2.2 1.06-2.93.75-.83 2.02-1.45 3.01-1.4zM20.5 17.02c-.55 1.27-.81 1.83-1.52 2.95-.98 1.53-2.36 3.44-4.07 3.46-1.52.01-1.91-.99-3.97-.98-2.06.01-2.49 1-4.01.99-1.71-.02-3.02-1.74-4-3.27C.18 15.96-.11 10.66 1.93 7.94c.99-1.35 2.55-2.2 4.03-2.2 1.5 0 2.45 1.01 3.7 1.01 1.21 0 1.95-1.01 3.69-1.01 1.32 0 2.71.72 3.71 1.96-3.26 1.79-2.73 6.46.44 8.32z"/></svg>
+        <span class="t"><small>ダウンロード</small><strong>App Store</strong></span>
+      </a>
+      <a class="store" href="https://play.google.com/store/apps/details?id=com.yokohamashieibusnavi.app">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg>
+        <span class="t"><small>ダウンロード</small><strong>Google Play</strong></span>
+      </a>
+    </div>
+    <p class="unofficial">本アプリは横浜市交通局の公式アプリではない <strong>非公式アプリ</strong> です。時刻表・運行データは公共交通オープンデータセンター（ODPT）／横浜市交通局の公開データを利用しています。</p>
+  </div>
 </div>
 
-<h2>主な機能</h2>
-<ul class="features">
-<li><b>時刻表</b><br>方面・のりば・系統ごとの時刻表</li>
-<li><b>接近情報</b><br>今どこ？ 何個前？ 混雑状況も</li>
-<li><b>お気に入り</b><br>よく使う停留所をまとめて確認</li>
-<li><b>ルート検索</b><br>出発・到着・始発・最終で検索</li>
-<li><b>地図</b><br>バス位置・のりば・現在地・鉄道駅</li>
-<li><b>通知</b><br>乗り忘れ・降車アラーム</li>
-</ul>
+<section>
+  <div class="wrap">
+    <span class="eyebrow">WHAT'S NEW</span>
+    <div class="new reveal">
+      <span class="ver">v3.1.0</span>
+      <h2 style="margin-top:4px;">最新アップデート</h2>
+      <ul>
+        <li>系統を <b>行き先（方面）</b> でも検索。かな入力にも対応</li>
+        <li>路線図に <b>並走系統のまとめ表示</b> を追加</li>
+        <li>お気に入りの <b>到着時刻に遅延を反映</b>（予測＋定刻）</li>
+        <li>アラームを <b>遅延を見込んだ時刻</b> でお知らせ</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-<h2>リンク</h2>
-<div class="links">
-<a href="privacy.html">プライバシーポリシー</a>
-<a href="mailto:amk.work01@gmail.com">お問い合わせ</a>
-</div>
+<section>
+  <div class="wrap">
+    <span class="eyebrow">FEATURES</span>
+    <h2>主な機能</h2>
+    <p class="lead">横浜市営バスの「今」を、これひとつで。</p>
+    <div class="grid">
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><b>時刻表</b><span>方面・のりば・系統ごとに表示</span></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M5 17h14M6 17V9a6 6 0 0 1 12 0v8M9 21h6"/></svg></div><b>接近情報</b><span>今どこ？ 何個前？ 遅延・混雑も</span></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div><b>地図</b><span>バス位置・のりば・現在地・鉄道駅</span></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div><b>ルート検索</b><span>出発・到着・始発・最終で検索</span></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.2l5.9-.9z"/></svg></div><b>お気に入り</b><span>よく使う停留所をまとめて確認</span></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M10 21a2 2 0 0 0 4 0"/></svg></div><b>通知・アラーム</b><span>乗り忘れ・降車を遅延込みでお知らせ</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">DATA &amp; TECH</span>
+    <h2>データ提供元・技術</h2>
+    <div class="sources reveal">
+      <ul>
+        <li>時刻表・路線・運行データ: 公共交通オープンデータセンター（ODPT）／横浜市交通局</li>
+        <li>地図: <a href="https://openfreemap.org/">OpenFreeMap</a> ／ OpenMapTiles ／ © OpenStreetMap contributors（描画: MapLibre）</li>
+        <li>鉄道駅データ: <a href="https://express.heartrails.com/">HeartRails Express</a></li>
+        <li>祝日データ: 内閣府</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">LINKS</span>
+    <h2>リンク・お問い合わせ</h2>
+    <div class="links">
+      <a href="privacy.html">プライバシーポリシー</a>
+      <a href="mailto:amk.work01@gmail.com">お問い合わせ</a>
+    </div>
+  </div>
+</section>
 
 <footer>© 2026 KA-Laboratory ／ 横浜市営バスナビ（非公式）</footer>
-</div>
+
 </body>
 </html>
