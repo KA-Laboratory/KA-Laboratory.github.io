@@ -33,6 +33,9 @@ a{color:var(--blue);}
 .nav .name{font-weight:800;color:var(--deep);letter-spacing:.02em;}
 .nav .name small{display:block;font-weight:600;font-size:.62rem;color:var(--muted);letter-spacing:.12em;}
 .nav .spacer{flex:1;}
+.nav .navlink{color:var(--deep);text-decoration:none;font-weight:700;font-size:.9rem;margin-right:6px;
+  padding:8px 10px;border-radius:999px;transition:background .15s;}
+.nav .navlink:hover{background:#eef4fb;}
 .nav .cta{background:var(--blue);color:#fff;text-decoration:none;font-weight:700;font-size:.9rem;
   padding:8px 16px;border-radius:999px;transition:transform .15s,box-shadow .15s;}
 .nav .cta:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,89,168,.35);}
@@ -119,6 +122,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 16px 4
     <img src="icon.png" alt="横浜市営バスナビ アイコン">
     <div class="name">横浜市営バスナビ<small>YOKOHAMA CITY BUS NAVI</small></div>
     <div class="spacer"></div>
+    <a class="navlink" href="guide.html">使い方ガイド</a>
     <a class="cta" href="#download">入手する</a>
   </div>
 </header>
@@ -186,13 +190,13 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 16px 4
   <div class="wrap">
     <span class="eyebrow">WHAT'S NEW</span>
     <div class="new reveal">
-      <span class="ver">v3.1.0</span>
+      <span class="ver">v4.0.1</span>
       <h2 style="margin-top:4px;">最新アップデート</h2>
       <ul>
-        <li>系統を <b>行き先（方面）</b> でも検索。かな入力にも対応</li>
-        <li>路線図に <b>並走系統のまとめ表示</b> を追加</li>
-        <li>お気に入りの <b>到着時刻に遅延を反映</b>（予測＋定刻）</li>
-        <li>アラームを <b>遅延を見込んだ時刻</b> でお知らせ</li>
+        <li><b>接近情報の精度を改善</b>：運行を終えたバスが残り続ける表示を修正</li>
+        <li><b>お気に入り表示を安定化</b>：まだ便がある時間帯の「本日終了」誤表示を修正</li>
+        <li>系統を <b>行き先（方面）</b> でも検索・かな入力対応／<b>並走系統のまとめ表示</b></li>
+        <li><b>詳しい使い方ガイド</b>を公開しました → <a href="guide.html">使い方ガイドを見る</a></li>
       </ul>
     </div>
   </div>
@@ -234,6 +238,7 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 16px 4
     <span class="eyebrow">LINKS</span>
     <h2>リンク・お問い合わせ</h2>
     <div class="links">
+      <a href="guide.html">使い方ガイド</a>
       <a href="privacy.html">プライバシーポリシー</a>
       <a href="mailto:yokohamashiei.bus.navi@gmail.com">お問い合わせ</a>
     </div>
