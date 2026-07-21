@@ -139,6 +139,17 @@ section+section{border-top:1px solid var(--line);}
   background:var(--blue-l); color:#0b4d8f; font-size:15px; line-height:1.7;
 }
 
+/* past releases — 最新より一段弱く見せる（余白と文字サイズで階層をつくる） */
+.past-h{margin:var(--s5) 0 var(--s3); font-size:18px; color:var(--ink-2);}
+.past{display:grid; gap:var(--s3); max-width:760px;}
+.past-item{background:#fff; border:1px solid var(--line); border-radius:var(--r); padding:var(--s3);}
+.ver-sm{font-size:13px; padding:3px 12px; background:var(--ink-2);}
+.past ul{margin:var(--s2) 0 0; padding:0; list-style:none;}
+.past li{padding:10px 0; border-top:1px solid var(--line);}
+.past li:first-child{border-top:0; padding-top:0;}
+.past li b{display:block; font-size:16px;}
+.past li span{display:block; color:var(--ink-2); font-size:15px; line-height:1.7; margin-top:2px;}
+
 /* features */
 .feats{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s3); margin-top:var(--s4);}
 .feat{border:1px solid var(--line); border-radius:var(--r-lg); padding:var(--s3);}
@@ -285,6 +296,26 @@ footer small{color:var(--ink-3); margin-left:auto; font-size:14px;}
         <li><b>遅れの表示が速く追いつくように</b><span>急に遅れが大きくなったとき、表示が実態に追いつくまでの時間を短縮しました。</span></li>
       </ul>
       <p class="note">覚えた記録はお使いの端末の中だけに残り、外部へ送信することはありません。記録が少ないうちは従来どおり時刻表をもとに表示し、増えるにつれて少しずつ実績側へ寄っていきます。</p>
+    </div>
+
+    <h3 class="past-h">これまでの改善</h3>
+    <div class="past reveal">
+      <div class="past-item">
+        <span class="ver ver-sm">v4.0.3</span>
+        <ul>
+          <li><b>表示が新しくなるまでの待ちを短縮</b><span>バスの位置は30秒ごとに配信されます。取りに行くタイミングを配信に合わせたことで、画面に出るまでの待ちが平均7.5秒から約1.3秒になりました。「◯◯時点」の表示も、取得した時刻ではなくデータそのものの時刻に直しています。</span></li>
+          <li><b>大きな文字設定で検索ボタンが押せない問題を修正</b><span>端末の文字サイズを大きくしていると、ルート検索の検索ボタンが潰れて見えなくなっていました。</span></li>
+          <li><b>位置情報を出していないバスがある旨の案内を追加</b><span>接近情報に出ないバスもあるため、時刻表もあわせてご確認ください。</span></li>
+          <li><b>深夜0時をまたぐ遅れの計算と、最終便の乗り換え判定を修正</b></li>
+        </ul>
+      </div>
+      <div class="past-item">
+        <span class="ver ver-sm">v4.0.2</span>
+        <ul>
+          <li><b>地図の読み込み中を表示</b><span>描画されるまで真っ白なままだった画面に「地図を読み込み中…」と出るようにしました。</span></li>
+          <li><b>ダークモードでルート検索の選択中バス停が読めない問題を修正</b></li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
