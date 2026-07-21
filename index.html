@@ -19,7 +19,9 @@
 :root{
   --navy:#0a3d7a; --navy-d:#062a56; --blue:#1275be; --blue-l:#e8f1fa;
   --cream:#ecdeb6; --amber:#c47a10;
-  --ink:#14181f; --ink-2:#42505f; --ink-3:#6b7a8c;
+  /* --ink-3 は 14px の補助テキストに使う。#6b7a8c だと薄い背景の上で
+     コントラスト比 4.09〜4.39 にしかならず WCAG AA(4.5:1) を満たさなかった。 */
+  --ink:#14181f; --ink-2:#42505f; --ink-3:#5c6b7d;
   --bg:#ffffff; --bg-2:#f5f7fa; --line:#e2e8f0;
   --s1:8px; --s2:16px; --s3:24px; --s4:40px; --s5:64px; --s6:96px;
   --r:12px; --r-lg:20px;
@@ -60,8 +62,11 @@ section+section{border-top:1px solid var(--line);}
 .bar img{width:36px; height:36px; border-radius:9px;}
 .bar b{font-size:17px; letter-spacing:.02em;}
 .bar nav{margin-left:auto; display:flex; align-items:center; gap:var(--s2);}
-.bar nav a{color:var(--ink-2); text-decoration:none; font-size:16px;}
-.bar nav a:hover{text-decoration:underline;}
+/* :not(.btn) が要る。これが無いと `.bar nav a`（詳細度0,1,2）が
+   `.btn`（0,1,0）に勝ってしまい、ボタンの文字が灰色になって
+   濃紺の上でコントラスト比1.6:1まで落ちる（読めない＝無効に見える）。 */
+.bar nav a:not(.btn){color:var(--ink-2); text-decoration:none; font-size:16px;}
+.bar nav a:not(.btn):hover{text-decoration:underline;}
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
   min-height:48px; padding:0 22px; border-radius:999px;
