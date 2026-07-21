@@ -4,201 +4,282 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>横浜市営バスナビ（非公式）｜時刻表・接近情報・ルート検索</title>
-<meta name="description" content="横浜市営バスに特化した非公式バスナビ。時刻表・接近情報・遅延・ルート検索・地図・通知。iOS / Android 対応。">
-<meta property="og:title" content="横浜市営バスナビ（非公式）">
-<meta property="og:description" content="横浜市営バスに特化した非公式バスナビ。時刻表・接近情報・遅延・ルート検索・地図・通知。">
+<meta name="description" content="横浜市営バスに特化した非公式バスナビ。バスが今どこにいるか、あと何個前か、何分遅れかがひと目で分かります。時刻表・接近情報・ルート検索・地図・通知。iOS / Android 対応・無料。">
+<meta name="theme-color" content="#0a3d7a">
 <meta property="og:type" content="website">
+<meta property="og:title" content="横浜市営バスナビ（非公式）">
+<meta property="og:description" content="バスが今どこにいるか、あと何個前か、何分遅れか。横浜市営バスに特化した非公式バスナビ。">
 <meta property="og:image" content="https://ka-laboratory.github.io/icon.png">
+<meta property="og:url" content="https://ka-laboratory.github.io/">
 <link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --blue:#0059A8;--deep:#002E5C;--sky:#17579F;--ink:#0b1b30;
-  --amber:#FFA318;--amber-ink:#2A1F05;
-  --bg:#eef3f9;--card:#ffffff;--line:#e0e8f2;--text:#1a2230;--muted:#5b6b80;
-  --radius:16px;--shadow:0 12px 30px rgba(9,42,85,.10);
+  --navy:#0a3d7a; --navy-d:#062a56; --blue:#1275be; --blue-l:#e8f1fa;
+  --cream:#ecdeb6; --amber:#c47a10;
+  --ink:#14181f; --ink-2:#42505f; --ink-3:#6b7a8c;
+  --bg:#ffffff; --bg-2:#f5f7fa; --line:#e2e8f0;
+  --s1:8px; --s2:16px; --s3:24px; --s4:40px; --s5:64px; --s6:96px;
+  --r:12px; --r-lg:20px;
+  --wrap:1080px;
 }
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
-  line-height:1.8;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;}
-a{color:var(--blue);}
-.wrap{max-width:920px;margin:0 auto;padding:0 18px;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:'Noto Sans JP',-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic UI',sans-serif;
+  font-size:17px; line-height:1.7; letter-spacing:.02em;
+  font-feature-settings:'palt' 0;
+}
+img{max-width:100%; height:auto; display:block;}
+a{color:#0d5aa7;}
+.wrap{max-width:var(--wrap); margin-inline:auto; padding-inline:var(--s3);}
+.skip{position:absolute; left:-9999px;}
+.skip:focus{left:8px; top:8px; z-index:99; background:#fff; padding:12px 16px; border-radius:8px;}
+
+h1,h2,h3{line-height:1.4; letter-spacing:.01em; margin:0;}
+h2{font-size:32px;}
+h3{font-size:20px; letter-spacing:.02em;}
+p{margin:0;}
+.lede{color:var(--ink-2); font-size:17px;}
+.eyebrow{
+  display:inline-block; font-size:14px; font-weight:700; letter-spacing:.14em;
+  color:var(--blue); margin-bottom:var(--s1);
+}
+section{padding-block:var(--s6);}
+section+section{border-top:1px solid var(--line);}
 
 /* header */
-.nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.82);backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--line);}
-.nav .wrap{display:flex;align-items:center;gap:10px;height:58px;}
-.nav img{width:32px;height:32px;border-radius:8px;}
-.nav .name{font-weight:800;color:var(--deep);letter-spacing:.02em;}
-.nav .name small{display:block;font-weight:600;font-size:.62rem;color:var(--muted);letter-spacing:.12em;}
-.nav .spacer{flex:1;}
-.nav .navlink{color:var(--deep);text-decoration:none;font-weight:700;font-size:.9rem;margin-right:6px;
-  padding:8px 10px;border-radius:999px;transition:background .15s;}
-.nav .navlink:hover{background:#eef4fb;}
-.nav .cta{background:var(--blue);color:#fff;text-decoration:none;font-weight:700;font-size:.9rem;
-  padding:8px 16px;border-radius:999px;transition:transform .15s,box-shadow .15s;}
-.nav .cta:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,89,168,.35);}
+.bar{
+  position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92);
+  backdrop-filter:saturate(180%) blur(12px); border-bottom:1px solid var(--line);
+}
+.bar .wrap{display:flex; align-items:center; gap:12px; height:64px;}
+.bar img{width:36px; height:36px; border-radius:9px;}
+.bar b{font-size:17px; letter-spacing:.02em;}
+.bar nav{margin-left:auto; display:flex; align-items:center; gap:var(--s2);}
+.bar nav a{color:var(--ink-2); text-decoration:none; font-size:16px;}
+.bar nav a:hover{text-decoration:underline;}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  min-height:48px; padding:0 22px; border-radius:999px;
+  background:var(--navy); color:#fff; text-decoration:none;
+  font-weight:700; font-size:16px; letter-spacing:.02em;
+}
+.btn:hover{background:var(--navy-d);}
+.btn.ghost{background:#fff; color:var(--navy); border:2px solid var(--navy);}
+.btn.ghost:hover{background:var(--blue-l);}
 
 /* hero */
-.hero{background:linear-gradient(150deg,#17579F,#092A55);color:#fff;padding:44px 0 56px;position:relative;overflow:hidden;}
-.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at 24% 14%,rgba(255,255,255,.10),transparent 70%);pointer-events:none;}
-.hero .wrap{position:relative;z-index:1;}
-.fg{display:block;width:100%;max-width:720px;margin:0 auto;border-radius:20px;
-  box-shadow:0 24px 60px rgba(0,0,0,.38);border:1px solid rgba(255,255,255,.12);}
-.stores{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:26px;}
-.store{display:flex;align-items:center;gap:11px;background:#0c1622;color:#fff;text-decoration:none;
-  padding:12px 22px;border-radius:14px;min-width:220px;border:1px solid rgba(255,255,255,.14);
-  transition:transform .15s,box-shadow .15s,background .15s;}
-.store:hover{transform:translateY(-2px);background:#0f1d2e;box-shadow:0 12px 26px rgba(0,0,0,.35);}
-.store svg{width:26px;height:26px;flex:none;fill:#fff;}
-.store .t{display:flex;flex-direction:column;line-height:1.15;text-align:left;}
-.store .t small{font-size:.7rem;opacity:.82;}
-.store .t strong{font-size:1.08rem;}
-.unofficial{max-width:640px;margin:22px auto 0;text-align:center;font-size:.86rem;color:#cfe0f2;
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px 16px;}
+.hero{background:linear-gradient(180deg,#f3f7fc 0%,#ffffff 100%); padding-block:var(--s5) var(--s6);}
+.hero .wrap{display:grid; grid-template-columns:1fr 300px; gap:var(--s5); align-items:center;}
+.hero h1{font-size:45px; letter-spacing:0; margin-bottom:var(--s2);}
+.hero .sub{font-size:20px; color:var(--ink-2); line-height:1.6;}
+.tag{
+  display:inline-block; margin-bottom:var(--s2); padding:6px 14px; border-radius:999px;
+  background:var(--blue-l); color:#0b4d8f; font-size:14px; font-weight:700; letter-spacing:.04em;
+}
+.cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:var(--s3);}
+.store{
+  display:inline-flex; align-items:center; gap:10px; min-height:56px; padding:0 20px;
+  background:var(--ink); color:#fff; border-radius:12px; text-decoration:none;
+}
+.store svg{width:24px; height:24px; fill:currentColor; flex:none;}
+.store span{display:block; font-size:11px; opacity:.8; line-height:1.2;}
+.store strong{display:block; font-size:17px; line-height:1.3; letter-spacing:.02em;}
+.free{margin-top:12px; color:var(--ink-3); font-size:14px;}
 
-/* sections */
-section{padding:40px 0;}
-.eyebrow{display:inline-block;font-size:.74rem;font-weight:800;letter-spacing:.16em;color:var(--blue);
-  background:#e6f0fb;border-radius:999px;padding:4px 12px;margin-bottom:10px;}
-h2{font-size:1.5rem;color:var(--deep);margin:.1em 0 .5em;letter-spacing:.01em;}
-.lead{color:var(--muted);margin-top:0;}
+/* phone */
+.phone{
+  border:10px solid #10151c; border-radius:34px; overflow:hidden;
+  box-shadow:0 18px 40px rgba(10,40,80,.18); background:#10151c;
+}
+.phone img{width:100%;}
 
-/* whats new */
-.new{background:linear-gradient(135deg,#fff7ea,#fdeecf);border:1px solid #f4dca6;border-radius:var(--radius);
-  padding:22px 22px 8px;box-shadow:var(--shadow);}
-.new .ver{display:inline-block;background:var(--amber);color:var(--amber-ink);font-weight:800;
-  border-radius:999px;padding:3px 12px;font-size:.8rem;margin-bottom:6px;}
-.new ul{list-style:none;padding:0;margin:12px 0 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.new li{position:relative;padding-left:26px;}
-.new li::before{content:"";position:absolute;left:2px;top:.55em;width:12px;height:12px;border-radius:50%;
-  background:var(--amber);box-shadow:0 0 0 4px rgba(255,163,24,.18);}
+/* proof (card close-up) */
+.proof{background:var(--bg-2);}
+.card-shot{margin:var(--s4) 0 0; max-width:620px;}
+.card-shot img{border-radius:var(--r); border:1px solid var(--line); box-shadow:0 10px 28px rgba(10,40,80,.10);}
+.card-shot figcaption{margin-top:12px; color:var(--ink-3); font-size:14px;}
+
+/* map row */
+.map-row{display:grid; grid-template-columns:300px 1fr; gap:var(--s5); align-items:center; margin-top:var(--s4);}
+.ticks{margin:0; padding:0; list-style:none;}
+.ticks li{position:relative; padding:12px 0 12px 34px; border-bottom:1px solid var(--line); font-size:17px;}
+.ticks li:last-child{border-bottom:0;}
+.ticks li::before{
+  content:''; position:absolute; left:4px; top:19px; width:9px; height:16px;
+  border-right:3px solid var(--blue); border-bottom:3px solid var(--blue);
+  transform:rotate(45deg);
+}
+
+/* new */
+.new{background:var(--bg-2);}
+.new .card{
+  background:#fff; border:1px solid var(--line); border-radius:var(--r-lg);
+  padding:var(--s4); max-width:760px;
+}
+.ver{
+  display:inline-block; background:var(--navy); color:#fff; border-radius:999px;
+  padding:4px 14px; font-size:14px; font-weight:700; letter-spacing:.04em;
+}
+.new ul{margin:var(--s3) 0 0; padding:0; list-style:none;}
+.new li{padding:var(--s2) 0; border-top:1px solid var(--line);}
+.new li b{display:block; font-size:17px; margin-bottom:2px;}
+.new li span{color:var(--ink-2); font-size:16px;}
+.note{
+  margin-top:var(--s3); padding:var(--s2); border-radius:var(--r);
+  background:var(--blue-l); color:#0b4d8f; font-size:15px; line-height:1.7;
+}
 
 /* features */
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-.feat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;
-  box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s;}
-.feat:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(9,42,85,.16);}
-.feat .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;margin-bottom:10px;
-  background:linear-gradient(135deg,#0d5aa8,#0a3d78);}
-.feat .ic svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.feat b{display:block;color:var(--deep);font-size:1.02rem;}
-.feat span{color:var(--muted);font-size:.92rem;}
-
-/* sources */
-.sources{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);}
-.sources ul{margin:6px 0 0;padding-left:1.2em;color:var(--muted);}
-.sources li{margin:.35em 0;}
-.sources a{word-break:break-all;}
-
-/* links */
-.links{display:flex;flex-wrap:wrap;gap:12px;}
-.links a{display:inline-flex;align-items:center;gap:8px;background:var(--card);color:var(--blue);
-  border:1px solid var(--blue);text-decoration:none;padding:11px 20px;border-radius:999px;font-weight:700;
-  transition:background .15s,color .15s;}
-.links a:hover{background:var(--blue);color:#fff;}
-
-footer{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 16px 44px;border-top:1px solid var(--line);}
-
-/* entrance animation */
-.reveal{opacity:0;transform:translateY(14px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards;}
-@keyframes rise{to{opacity:1;transform:none;}}
-@media (prefers-reduced-motion:reduce){.reveal{animation:none;opacity:1;transform:none;}}
-
-@media(max-width:640px){
-  h2{font-size:1.3rem;}
-  .grid{grid-template-columns:1fr 1fr;}
-  .new ul{grid-template-columns:1fr;}
-  .store{flex:1 1 100%;}
+.feats{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s3); margin-top:var(--s4);}
+.feat{border:1px solid var(--line); border-radius:var(--r-lg); padding:var(--s3);}
+.feat .ic{
+  width:44px; height:44px; border-radius:12px; background:var(--blue-l);
+  display:grid; place-items:center; margin-bottom:12px;
 }
-@media(max-width:420px){.grid{grid-template-columns:1fr;}}
+.feat svg{width:24px; height:24px; fill:none; stroke:var(--navy); stroke-width:1.8;
+  stroke-linecap:round; stroke-linejoin:round;}
+.feat b{display:block; font-size:18px; margin-bottom:4px;}
+.feat span{color:var(--ink-2); font-size:16px; line-height:1.7;}
+
+/* closing cta */
+.closing{background:var(--navy); color:#fff; text-align:center;}
+.closing h2{font-size:32px;}
+.closing .lede{color:#c9dcf0;}
+
+/* data */
+.data ul{margin:var(--s3) 0 0; padding:0; list-style:none; max-width:760px;}
+.data li{padding:14px 0; border-top:1px solid var(--line); color:var(--ink-2); font-size:16px;}
+.data li b{color:var(--ink); font-weight:700;}
+
+.disclaimer{
+  margin-top:var(--s3); padding:var(--s3); border-radius:var(--r);
+  border:1px solid var(--line); background:var(--bg-2);
+  color:var(--ink-2); font-size:15px; line-height:1.8; max-width:760px;
+}
+footer{background:var(--bg-2); border-top:1px solid var(--line); padding-block:var(--s4);}
+footer .wrap{display:flex; flex-wrap:wrap; gap:var(--s2) var(--s3); align-items:center;}
+footer a{color:var(--ink-2);}
+footer small{color:var(--ink-3); margin-left:auto; font-size:14px;}
+
+@media (max-width:860px){
+  body{font-size:16px;}
+  h2{font-size:26px;}
+  section{padding-block:var(--s5);}
+  .hero .wrap{grid-template-columns:1fr; gap:var(--s4);}
+  .hero h1{font-size:32px;}
+  .hero .sub{font-size:17px;}
+  .hero .phone{max-width:280px; margin-inline:auto;}
+  .feats{grid-template-columns:1fr;}
+  .map-row{grid-template-columns:1fr; gap:var(--s3);}
+  .map-row .phone{max-width:280px; margin-inline:auto;}
+  .bar nav a.hide-sm{display:none;}
+  .new .card{padding:var(--s3);}
+  footer small{margin-left:0; width:100%;}
+}
+/* フェードは「JSが動いたときだけ」の上乗せにする。
+   最初から opacity:0 にすると、JSが失敗した端末で中身が永久に見えなくなる。 */
+@media (prefers-reduced-motion:no-preference){
+  html.js .reveal{opacity:0; transform:translateY(12px); transition:opacity .5s ease, transform .5s ease;}
+  html.js .reveal.in{opacity:1; transform:none;}
+}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">本文へ移動</a>
 
-<header class="nav">
+<header class="bar">
   <div class="wrap">
-    <img src="icon.png" alt="横浜市営バスナビ アイコン">
-    <div class="name">横浜市営バスナビ<small>YOKOHAMA CITY BUS NAVI</small></div>
-    <div class="spacer"></div>
-    <a class="navlink" href="guide.html">使い方ガイド</a>
-    <a class="cta" href="#download">入手する</a>
+    <img src="icon.png" alt="">
+    <b>横浜市営バスナビ</b>
+    <nav>
+      <a class="hide-sm" href="guide.html">使い方ガイド</a>
+      <a class="btn" href="#get">入手する</a>
+    </nav>
   </div>
 </header>
 
-<div class="hero">
-  <div class="wrap">
-    <svg class="fg reveal" viewBox="0 0 1024 500" role="img" aria-label="横浜市営バスナビ — 時刻表・接近情報・ルート検索・地図（横浜市営バス対応・非公式）" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="bodySF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDDCAC"/><stop offset="1" stop-color="#D3B97B"/></linearGradient>
-        <linearGradient id="glassSF" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#17263A"/><stop offset="1" stop-color="#31587F"/></linearGradient>
-        <clipPath id="bodyClipSF"><rect x="104" y="96" width="304" height="300" rx="52"/></clipPath>
-        <clipPath id="glassClipSF"><rect x="136" y="170" width="240" height="92" rx="18"/></clipPath>
-        <linearGradient id="fgBg" x1="0" y1="0" x2="0.75" y2="1"><stop offset="0" stop-color="#17579F"/><stop offset="1" stop-color="#092A55"/></linearGradient>
-        <radialGradient id="fgGlow" cx="0.26" cy="0.18" r="0.75"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.10"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
-      </defs>
-      <rect width="1024" height="500" fill="url(#fgBg)"/>
-      <rect width="1024" height="500" fill="url(#fgGlow)"/>
-      <g transform="translate(569.6,19) scale(0.9)">
-        <ellipse cx="256" cy="414" rx="150" ry="15" fill="#04203E" opacity="0.22"/>
-        <circle cx="176" cy="392" r="28" fill="#131B28"/><circle cx="336" cy="392" r="28" fill="#131B28"/>
-        <rect x="88" y="168" width="20" height="46" rx="9" fill="#D9C285"/><rect x="104" y="182" width="18" height="9" fill="#D9C285"/>
-        <rect x="404" y="168" width="20" height="46" rx="9" fill="#D9C285"/><rect x="390" y="182" width="18" height="9" fill="#D9C285"/>
-        <rect x="104" y="96" width="304" height="300" rx="52" fill="url(#bodySF)"/>
-        <g clip-path="url(#bodyClipSF)">
-          <rect x="104" y="96" width="304" height="9" fill="#FFFFFF" opacity="0.35"/>
-          <path d="M104 300 L190 300 L256 360 L322 300 L408 300 M256 352 L256 396" fill="none" stroke="#005FA8" stroke-width="34" stroke-linejoin="round"/>
-          <circle cx="256" cy="320" r="21" fill="#F2E5BC" stroke="#005FA8" stroke-width="5"/>
-          <path d="M256 309 L268 320 L256 331 L244 320 Z" fill="#005FA8"/>
-          <rect x="104" y="372" width="304" height="24" fill="#99A0A6"/>
-          <rect x="230" y="376" width="52" height="16" rx="3" fill="#12693A"/>
-          <rect x="128" y="376" width="34" height="16" rx="3" fill="#E9ECEF"/><rect x="131" y="379" width="28" height="10" rx="2" fill="#FF9D1E"/>
-          <rect x="350" y="376" width="34" height="16" rx="3" fill="#E9ECEF"/><rect x="353" y="379" width="28" height="10" rx="2" fill="#FF9D1E"/>
-        </g>
-        <rect x="164" y="114" width="184" height="42" rx="10" fill="#0F1216"/>
-        <rect x="180" y="128" width="34" height="16" rx="3" fill="#FFA318" opacity="0.95"/>
-        <circle cx="240" cy="136" r="4" fill="#FFA318"/><circle cx="260" cy="136" r="4" fill="#FFA318"/>
-        <circle cx="280" cy="136" r="4" fill="#FFA318"/><circle cx="300" cy="136" r="4" fill="#FFA318"/>
-        <rect x="136" y="170" width="240" height="92" rx="18" fill="url(#glassSF)"/>
-        <g clip-path="url(#glassClipSF)" fill="#FFFFFF"><path d="M156 170 h56 l-40 92 h-56 Z" opacity="0.14"/><path d="M236 170 h22 l-40 92 h-22 Z" opacity="0.12"/></g>
-        <rect x="114" y="322" width="64" height="34" rx="9" fill="#16191D"/><rect x="120" y="328" width="34" height="22" rx="6" fill="#EEF0F2"/>
-        <rect x="334" y="322" width="64" height="34" rx="9" fill="#16191D"/><rect x="358" y="328" width="34" height="22" rx="6" fill="#EEF0F2"/>
-      </g>
-      <text x="60" y="205" font-family="Noto Sans CJK JP, sans-serif" font-size="64" font-weight="700" fill="#FFFFFF">横浜市営バスナビ</text>
-      <rect x="60" y="228" width="512" height="8" rx="4" fill="#FFA318"/>
-      <text x="60" y="292" font-family="Noto Sans CJK JP, sans-serif" font-size="31" font-weight="500" fill="#DFE9F5">時刻表・接近情報・ルート検索・地図</text>
-      <rect x="60" y="330" width="400" height="52" rx="26" fill="#FFA318"/>
-      <text x="260" y="366" font-family="Noto Sans CJK JP, sans-serif" font-size="27" font-weight="700" fill="#2A1F05" text-anchor="middle">横浜市営バス対応・非公式</text>
-    </svg>
+<main id="main">
 
-    <div class="stores" id="download">
-      <a class="store" href="https://apps.apple.com/jp/app/id6786124457">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c0 1.11-.41 2.15-1.1 2.92-.74.84-1.95 1.49-2.97 1.41-.13-1.07.4-2.2 1.06-2.93.75-.83 2.02-1.45 3.01-1.4zM20.5 17.02c-.55 1.27-.81 1.83-1.52 2.95-.98 1.53-2.36 3.44-4.07 3.46-1.52.01-1.91-.99-3.97-.98-2.06.01-2.49 1-4.01.99-1.71-.02-3.02-1.74-4-3.27C.18 15.96-.11 10.66 1.93 7.94c.99-1.35 2.55-2.2 4.03-2.2 1.5 0 2.45 1.01 3.7 1.01 1.21 0 1.95-1.01 3.69-1.01 1.32 0 2.71.72 3.71 1.96-3.26 1.79-2.73 6.46.44 8.32z"/></svg>
-        <span class="t"><small>ダウンロード</small><strong>App Store</strong></span>
-      </a>
-      <a class="store" href="https://play.google.com/store/apps/details?id=com.yokohamashieibusnavi.app">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg>
-        <span class="t"><small>ダウンロード</small><strong>Google Play</strong></span>
-      </a>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="tag">横浜市営バス専用・非公式</span>
+      <h1>あのバス、<br>今どこにいる？</h1>
+      <p class="sub">バスの現在地、あと何個前か、何分遅れか。<br>横浜市営バスの「今」だけを、まっすぐ表示します。</p>
+      <div class="cta" id="get">
+        <a class="store" href="https://apps.apple.com/jp/app/id6786124457">
+          <svg viewBox="0 0 24 24"><path d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.8c-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.3 2.9 2.2 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.2.9-1.3 1.3-2.5 1.3-2.6 0 0-2.5-1-2.5-3.5zM14.2 5.9c.6-.8 1-1.9.9-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.8-1.3z"/></svg>
+          <span class="t"><span>ダウンロード</span><strong>App Store</strong></span>
+        </a>
+        <a class="store" href="https://play.google.com/store/apps/details?id=com.yokohamashieibusnavi.app">
+          <svg viewBox="0 0 24 24"><path d="M4 3.2v17.6c0 .5.5.9 1 .6l12.6-8.8c.4-.3.4-.9 0-1.2L5 2.6c-.5-.3-1 .1-1 .6z"/></svg>
+          <span class="t"><span>ダウンロード</span><strong>Google Play</strong></span>
+        </a>
+      </div>
+      <p class="free">無料・iOS / Android 対応</p>
     </div>
-    <p class="unofficial">本アプリは横浜市交通局の公式アプリではない <strong>非公式アプリ</strong> です。時刻表・運行データは公共交通オープンデータセンター（ODPT）／横浜市交通局の公開データを利用しています。</p>
+    <div class="phone">
+      <img src="shots/approach_live.jpg" width="640" height="1108" fetchpriority="high"
+           alt="接近情報の画面。三の谷バス停に向かう101系統・058系統のバスが、あと何個前かと混雑状況とともに並んでいる。">
+    </div>
   </div>
-</div>
+</section>
+
+<section class="proof">
+  <div class="wrap">
+    <span class="eyebrow">POINT</span>
+    <h2>「あと2分」まで分かります</h2>
+    <p class="lede" style="margin-top:8px; max-width:640px;">
+      定刻だけでなく、そのバスが今どこを走っているかから逆算します。
+      遅れているときは、定刻に取り消し線を引いて実際の見込み時刻を出します。
+    </p>
+    <figure class="card-shot reveal">
+      <img src="shots/favorites.jpg" width="640" height="508"
+        alt="お気に入りカードの拡大。目安18時22分の桜木町駅前行きは1個前を出発してあと2分、定刻18時31分のみなと赤十字病院行きは取り消し線が引かれ18時34分と表示されている。">
+      <figcaption>お気に入り画面のカード（拡大）</figcaption>
+    </figure>
+  </div>
+</section>
 
 <section>
   <div class="wrap">
-    <span class="eyebrow">WHAT'S NEW</span>
-    <div class="new reveal">
-      <span class="ver">v5.0.0</span>
-      <h2 style="margin-top:4px;">最新アップデート</h2>
-      <ul>
-        <li><b>使うほど時間が正確に</b>：バスが実際に走った所要時間を端末に覚えて、到着予測に反映します。停車も信号待ちも渋滞も含まれるので、朝夕の混む時間ほど実態に近づきます</li>
-        <li><b>地図のバスを実車の塗装で表示</b>：「あかいくつ」やベイサイドブルーなど、観光路線のバスがひと目で分かります。進行方向に合わせて車体の向きも変わります</li>
-        <li><b>遅れの表示が速く追いつくように</b>：事故などで急に遅れが大きくなったとき、表示が実態に追いつくまでの時間を短縮しました</li>
-        <li><b>詳しい使い方ガイド</b>を公開しています → <a href="guide.html">使い方ガイドを見る</a></li>
+    <span class="eyebrow">MAP</span>
+    <h2>走っているバスが、地図に出ます</h2>
+    <p class="lede" style="margin-top:8px; max-width:640px;">
+      車体の塗装まで描き分けているので、「あかいくつ」やベイサイドブルーもひと目で分かります。
+      進行方向に合わせて、バスの向きも変わります。
+    </p>
+    <div class="map-row">
+      <div class="phone reveal"><img src="shots/map.jpg" width="640" height="1108"
+        alt="地図画面。横浜駅からみなとみらい周辺の地図に、走行中の横浜市営バスが車体の塗装つきで並んでいる。"></div>
+      <ul class="ticks">
+        <li>走っているバスの現在地</li>
+        <li>のりばの位置と方面</li>
+        <li>現在地と、近くのバス停</li>
+        <li>鉄道駅（事業者ごとの色）</li>
+        <li>渋滞している区間</li>
       </ul>
-      <p class="lead" style="margin-top:14px;font-size:.92rem;">覚えた記録はお使いの端末の中だけに残り、外部へ送信することはありません。記録が少ないうちは従来どおり時刻表をもとに表示し、増えるにつれて少しずつ実績側へ寄っていきます。</p>
+    </div>
+  </div>
+</section>
+
+<section class="new">
+  <div class="wrap">
+    <span class="eyebrow">WHAT'S NEW</span>
+    <h2>最新アップデート</h2>
+    <div class="card reveal" style="margin-top:var(--s3);">
+      <span class="ver">v5.0.0</span>
+      <ul>
+        <li><b>使うほど時間が正確に</b><span>バスが実際に走った所要時間を覚えて、到着予測に反映します。停車も信号待ちも渋滞も含まれるので、朝夕の混む時間ほど実態に近づきます。</span></li>
+        <li><b>地図のバスを実車の塗装で表示</b><span>「あかいくつ」やベイサイドブルーなど、観光路線のバスがひと目で分かります。進行方向に合わせて車体の向きも変わります。</span></li>
+        <li><b>遅れの表示が速く追いつくように</b><span>急に遅れが大きくなったとき、表示が実態に追いつくまでの時間を短縮しました。</span></li>
+      </ul>
+      <p class="note">覚えた記録はお使いの端末の中だけに残り、外部へ送信することはありません。記録が少ないうちは従来どおり時刻表をもとに表示し、増えるにつれて少しずつ実績側へ寄っていきます。</p>
     </div>
   </div>
 </section>
@@ -206,47 +287,74 @@ footer{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 16px 4
 <section>
   <div class="wrap">
     <span class="eyebrow">FEATURES</span>
-    <h2>主な機能</h2>
-    <p class="lead">横浜市営バスの「今」を、これひとつで。</p>
-    <div class="grid">
-      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><b>時刻表</b><span>方面・のりば・系統ごとに表示</span></div>
-      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M5 17h14M6 17V9a6 6 0 0 1 12 0v8M9 21h6"/></svg></div><b>接近情報</b><span>今どこ？ 何個前？ 遅延・混雑も</span></div>
-      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div><b>地図</b><span>バス位置・のりば・現在地・鉄道駅</span></div>
-      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div><b>ルート検索</b><span>出発・到着・始発・最終で検索</span></div>
-      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.2l5.9-.9z"/></svg></div><b>お気に入り</b><span>よく使う停留所をまとめて確認</span></div>
-      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M10 21a2 2 0 0 0 4 0"/></svg></div><b>通知・アラーム</b><span>乗り忘れ・降車を遅延込みでお知らせ</span></div>
+    <h2>できること</h2>
+    <div class="feats">
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><b>時刻表</b><span>のりば・方面・系統ごとに表示。通信がなくても開けます。</span></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M5 17h14M6 17V9a6 6 0 0 1 12 0v8M9 21h6"/></svg></div><b>接近情報</b><span>今どこ？ 何個前？ 遅れと混雑もあわせて。</span></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div><b>地図</b><span>走っているバス、のりば、現在地、鉄道駅。</span></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div><b>ルート検索</b><span>出発・到着・始発・最終から探せます。</span></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.2l5.9-.9z"/></svg></div><b>お気に入り</b><span>よく使うバス停をまとめて確認。</span></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg></div><b>通知・アラーム</b><span>乗り忘れ・降り過ごしを、遅れ込みでお知らせ。</span></div>
     </div>
   </div>
 </section>
 
-<section>
+<section class="closing">
   <div class="wrap">
-    <span class="eyebrow">DATA &amp; TECH</span>
-    <h2>データ提供元・技術</h2>
-    <div class="sources reveal">
-      <ul>
-        <li>時刻表・路線・運行データ: 公共交通オープンデータセンター（ODPT）／横浜市交通局</li>
-        <li>地図: <a href="https://openfreemap.org/">OpenFreeMap</a> ／ OpenMapTiles ／ © OpenStreetMap contributors（描画: MapLibre）</li>
-        <li>鉄道駅データ: <a href="https://express.heartrails.com/">HeartRails Express</a></li>
-        <li>祝日データ: 内閣府</li>
-      </ul>
+    <h2>次のバス、待たずに確かめる</h2>
+    <p class="lede" style="margin-top:12px;">無料で使えます。よく使うバス停をひとつ登録するところから。</p>
+    <div class="cta" style="justify-content:center; margin-top:var(--s3);">
+      <a class="store" href="https://apps.apple.com/jp/app/id6786124457">
+        <svg viewBox="0 0 24 24"><path d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.8c-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.3 2.9 2.2 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.2.9-1.3 1.3-2.5 1.3-2.6 0 0-2.5-1-2.5-3.5zM14.2 5.9c.6-.8 1-1.9.9-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.8-1.3z"/></svg>
+        <span class="t"><span>ダウンロード</span><strong>App Store</strong></span>
+      </a>
+      <a class="store" href="https://play.google.com/store/apps/details?id=com.yokohamashieibusnavi.app">
+        <svg viewBox="0 0 24 24"><path d="M4 3.2v17.6c0 .5.5.9 1 .6l12.6-8.8c.4-.3.4-.9 0-1.2L5 2.6c-.5-.3-1 .1-1 .6z"/></svg>
+        <span class="t"><span>ダウンロード</span><strong>Google Play</strong></span>
+      </a>
     </div>
   </div>
 </section>
 
-<section>
+<section class="data">
   <div class="wrap">
-    <span class="eyebrow">LINKS</span>
-    <h2>リンク・お問い合わせ</h2>
-    <div class="links">
-      <a href="guide.html">使い方ガイド</a>
-      <a href="privacy.html">プライバシーポリシー</a>
-      <a href="mailto:yokohamashiei.bus.navi@gmail.com">お問い合わせ</a>
-    </div>
+    <span class="eyebrow">DATA</span>
+    <h2>データと出典</h2>
+    <ul>
+      <li><b>時刻表・路線・運行データ</b>　公共交通オープンデータセンター（ODPT）／横浜市交通局</li>
+      <li><b>地図</b>　<a href="https://openfreemap.org/">OpenFreeMap</a> ／ OpenMapTiles ／ © OpenStreetMap contributors（描画: MapLibre）</li>
+      <li><b>鉄道駅データ</b>　<a href="https://express.heartrails.com/">HeartRails Express</a></li>
+      <li><b>祝日データ</b>　内閣府</li>
+    </ul>
+    <p class="disclaimer">本アプリは横浜市交通局が提供する公式アプリではありません。個人が開発した<b>非公式アプリ</b>です。運行情報は公開データをもとに表示しており、実際の運行と異なる場合があります。ご利用の際は現地の案内表示もあわせてご確認ください。</p>
   </div>
 </section>
 
-<footer>© 2026 KA-Laboratory ／ 横浜市営バスナビ（非公式）</footer>
+</main>
 
+<footer>
+  <div class="wrap">
+    <a href="guide.html">使い方ガイド</a>
+    <a href="privacy.html">プライバシーポリシー</a>
+    <a href="mailto:yokohamashiei.bus.navi@gmail.com">お問い合わせ</a>
+    <small>© 2026 KA-Laboratory ／ 横浜市営バスナビ（非公式）</small>
+  </div>
+</footer>
+
+<script>
+// フェードは上乗せの演出。IntersectionObserver が使えない/動きを減らす設定の
+// 環境では、何もせずそのまま表示する（中身が見えなくならないことを優先）。
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+  document.documentElement.classList.add('js');
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+})();
+</script>
 </body>
 </html>
