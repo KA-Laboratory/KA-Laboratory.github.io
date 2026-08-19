@@ -9,25 +9,32 @@
 body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;line-height:1.8;color:#1a1a1a;max-width:760px;margin:0 auto;padding:24px 16px;background:#fff;}
 h1{font-size:1.5rem;border-bottom:3px solid #0059A8;padding-bottom:8px;}
 h2{font-size:1.15rem;color:#0059A8;margin-top:1.8em;}
+h3{font-size:1.02rem;margin-top:1.4em;}
 a{color:#0059A8;word-break:break-all;}
 .meta{color:#666;font-size:.9rem;}
 .note{background:#eef4fb;border-left:4px solid #0059A8;padding:10px 14px;border-radius:6px;}
 ul,ol{padding-left:1.3em;}
 li{margin:.4em 0;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-size:.94rem;}
+th,td{border:1px solid #d5dde7;padding:8px 10px;vertical-align:top;text-align:left;}
+th{background:#eef4fb;}
+td ul{margin:0;padding-left:1.1em;}
 footer{margin-top:2.4em;color:#666;font-size:.85rem;border-top:1px solid #ddd;padding-top:12px;}
 </style>
 </head>
 <body>
 <h1>横浜市営バスナビ プライバシーポリシー</h1>
-<p class="meta">最終更新日: 2026年7月5日 ／ 発効日: 2026年6月19日</p>
+<p class="meta">最終更新日: 2026年8月19日 ／ 発効日: 2026年6月19日</p>
 <p class="note">本プライバシーポリシー（以下「本ポリシー」）は、本アプリの開発者（以下「当方」）が提供するスマートフォンアプリ「横浜市営バスナビ」（iOS 版・Android 版。以下「本アプリ」）における利用者情報の取り扱いについて定めるものです。<strong>本アプリは横浜市交通局が提供する公式アプリではない、非公式アプリです。</strong> 本アプリをインストールまたは利用することにより、利用者は本ポリシーに同意したものとみなされます。</p>
 
 <h2>1. 取得する情報</h2>
 <p>当方自身は、利用者の氏名・メールアドレス・電話番号などの個人情報をサーバーに収集・保管しません。本アプリにはユーザー登録・ログイン機能がなく、お気に入りや各種設定は利用者の端末内にのみ保存されます。一方、本アプリの機能および本アプリが利用する第三者サービス（特に広告配信）に関連して、以下の情報が取得・処理される場合があります。</p>
 <ol>
-<li><strong>位置情報（おおよそ／正確）</strong>: 地図上での現在地表示、最寄りバス停の判定、降車通知（目的地への接近検知）のために使用します。降車通知では、アプリを画面に表示していない間（バックグラウンド）も、目的地への接近を検知するため位置情報を利用する場合があります（Android では位置情報タイプの前景サービス、iOS ではバックグラウンド位置情報を使用します）。位置情報は主に端末内で処理され、当方のサーバーへ送信・保存しません。なお、乗り忘れ防止アラームは時刻に基づくもので、位置情報は使用しません。</li>
+<li><strong>位置情報（おおよそ／正確）</strong>: 地図上での現在地表示、および最寄りバス停の判定のために使用します。位置情報の取得は<strong>アプリを使用している間に限られます</strong>（Android は ACCESS_FINE_LOCATION／ACCESS_COARSE_LOCATION、iOS は「使用中のみ許可」）。当方のサーバーへ送信・保存することはありません。<br>
+なお、リアルタイム接近通知は、アプリを画面に表示していない間も動作しますが、監視しているのは<strong>バスの走行位置（第3条のオープンデータ）であって、利用者の位置情報ではありません</strong>。乗り忘れ防止アラームは時刻に基づくもので、位置情報は使用しません。<br>
+※広告配信事業者が独自に位置情報を取得する場合があります。詳細は第4条をご覧ください。</li>
 <li><strong>データ通信・自動更新に伴う情報</strong>: 本アプリは、バスの時刻表・路線・バス停・地図タイルなどの公開データを、第3条記載の提供元から取得します。これらの取得は利用者の操作時のほか、データを最新に保つために<strong>バックグラウンドで定期的に自動更新</strong>される場合があります（既定では Wi‑Fi 接続時のみ。アプリ内の設定で「Wi‑Fi 時のみ／常時／しない」を変更できます）。これらの通信に氏名・連絡先などの個人情報は含めません。ただし通信の性質上、IP アドレス等の標準的な接続情報が各提供元側で処理されることがあります。</li>
-<li><strong>広告に関する情報</strong>: 本アプリは Google AdMob（Google LLC）による広告（バナー広告・ネイティブ広告）を表示します。広告の配信・表示回数の測定・不正防止のため、Google および提携する広告事業者が、広告識別子（Android の広告 ID／AAID、iOS の広告識別子／IDFA）、IP アドレス、Cookie 等の識別子、デバイス情報、アプリの利用状況、おおよその位置情報などを取得・利用する場合があります。iOS では、Apple の App Tracking Transparency（ATT）の枠組みに従い、トラッキングに同意した場合にのみ IDFA が利用され、広告効果の測定に Apple の SKAdNetwork が用いられることがあります。また本アプリは、広告が正しく配信できているかを確認するため、広告関連ドメインへの到達性を確認する通信を行うことがあります（広告ブロックの検知に使用。個人情報は送信しません）。</li>
+<li><strong>広告に関する情報</strong>: 本アプリは<strong>株式会社アイモバイル（i-mobile）</strong>による広告を表示します。広告の配信・効果測定のため、同社が広告識別子・IP アドレス・端末情報・位置情報などを取得します。詳細は<strong>第4条</strong>に列挙しています。</li>
 <li><strong>購入情報</strong>: 「広告を非表示にする」などのアプリ内課金は、Android では Google Play（Google Play Billing）、iOS では Apple（App 内課金／StoreKit）を通じて処理されます。当方は購入の有無に関する情報を受け取りますが、クレジットカード番号などの決済情報を取得・保管しません。</li>
 <li><strong>診断情報</strong>: アプリの安定動作・改善のため、クラッシュログや診断情報（ネイティブのクラッシュ情報を含む）が収集される場合があります。これらは Google Play（Android）または Apple（App Store Connect／TestFlight）を通じて当方に提供され、個人を特定する目的では利用しません。</li>
 </ol>
@@ -41,36 +48,111 @@ footer{margin-top:2.4em;color:#666;font-size:.85rem;border-top:1px solid #ddd;pa
 <li>不正利用の防止、セキュリティの確保、法令の遵守</li>
 </ul>
 
-<h2>3. 第三者サービスと情報の共有</h2>
-<p>本アプリは以下の第三者サービス・データ提供元を利用しています。広告配信・アプリ内課金（Google AdMob／Google Play／Apple App Store）以外は、当方が公開データを取得する先であり、利用者個人の情報は送信しません（これらの取得には、データを最新化するためのバックグラウンド自動更新を含みます）。各社のプライバシーポリシーが適用され、各社は前記の情報を独自に取得・処理する場合があります。</p>
+<h2>3. 第三者サービスとデータの出典</h2>
+<p>本アプリは以下の第三者サービス・データ提供元を利用しています。各社のプライバシーポリシーが適用されます。実際に端末から情報が送信される先は<strong>第4条の表</strong>にまとめています。</p>
 <ul>
-<li><strong>Google AdMob ／ Google Play</strong>（広告配信・Android のアプリ内課金。提供: Google LLC）— プライバシーポリシー: <a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a> ／ 広告の仕組み: <a href="https://policies.google.com/technologies/ads">https://policies.google.com/technologies/ads</a></li>
-<li><strong>Apple（App Store ／ App 内課金）</strong>（iOS のアプリ配信・アプリ内課金・クラッシュレポート。提供: Apple Inc.）— プライバシーポリシー: <a href="https://www.apple.com/legal/privacy/">https://www.apple.com/legal/privacy/</a></li>
-<li><strong>公共交通オープンデータセンター（ODPT）／横浜市交通局</strong>（バスの時刻表・路線・運行データの出典）</li>
-<li><strong>HeartRails Express</strong>（地図上に表示する鉄道駅の駅名・位置データの取得元。当方からは駅一覧の取得要求のみを行い、利用者個人の情報は送信しません）— <a href="https://express.heartrails.com/">https://express.heartrails.com/</a></li>
+<li><strong>株式会社アイモバイル（i-mobile）</strong>（広告配信）— プライバシーポリシー: <a href="https://www.i-mobile.co.jp/privacy.html">https://www.i-mobile.co.jp/privacy.html</a> ／ 行動履歴情報等の取扱方針: <a href="https://www.i-mobile.co.jp/assets/pdf/20190131_privacy_treatment.pdf">PDF</a> ／ オプトアウト: <a href="https://www.i-mobile.co.jp/optout.html">https://www.i-mobile.co.jp/optout.html</a></li>
+<li><strong>Google LLC（Google Play）／ Apple Inc.（App Store）</strong>（アプリの配信・アプリ内課金・クラッシュレポート）— <a href="https://policies.google.com/privacy">Google</a> ／ <a href="https://www.apple.com/legal/privacy/">Apple</a></li>
+<li><strong>公共交通オープンデータセンター（ODPT）／横浜市交通局</strong>（バスの時刻表・路線・運行データの出典。公共交通オープンデータ基本ライセンスに基づき利用）— <a href="https://www.odpt.org/">https://www.odpt.org/</a></li>
 <li><strong>OpenFreeMap ／ OpenMapTiles ／ © OpenStreetMap contributors</strong>（地図タイル・地図データ。地図表示エンジン: MapLibre GL Native）— <a href="https://openfreemap.org/">https://openfreemap.org/</a></li>
 <li><strong>内閣府</strong>（「国民の祝日」データの取得元）</li>
+<li><strong>GitHub, Inc.</strong>（アプリ内「お知らせ」の配信元サーバー）— <a href="https://docs.github.com/site-policy/privacy-policies">プライバシーポリシー</a></li>
+<li><strong>HeartRails Express</strong>（地図上に表示する鉄道駅の駅名・位置データの<strong>出典</strong>。データはアプリに同梱しており、実行時に通信することはありません）— <a href="https://express.heartrails.com/">https://express.heartrails.com/</a></li>
 </ul>
 <p>当方が、利用者の個人データを上記以外の第三者に販売・提供することはありません。</p>
 
-<h2>4. 広告のパーソナライズと同意</h2>
-<p>本アプリの広告は Google AdMob により配信されます。利用者は次の方法で広告のパーソナライズを管理できます。</p>
+<h2>4. 情報の外部送信について</h2>
+<p class="note">本条は、電気通信事業法の<strong>外部送信規律</strong>に基づく通知・公表として掲載しています。同一の内容は、アプリ内のメニュー「<strong>外部送信について</strong>」からもご確認いただけます。</p>
+<p>本アプリは、以下の事業者に対し、利用者の端末から情報を送信しています。</p>
+
+<table>
+<thead>
+<tr><th>送信先</th><th>送信される情報</th><th>利用目的</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>株式会社アイモバイル</strong><br><span class="meta">アプリ内の広告</span></td>
+<td><ul>
+<li>広告識別子（Android: 広告 ID／AAID、iOS: IDFA）</li>
+<li>接続元の IP アドレス</li>
+<li>端末情報（OS・OS バージョン・機種名・画面サイズ）</li>
+<li>位置情報</li>
+<li>広告の表示・タップの記録</li>
+</ul></td>
+<td>広告の配信、広告効果の計測と分析、サービスの改善、規約違反への対応</td>
+</tr>
+<tr>
+<td><strong>公共交通オープンデータ協議会</strong><br><span class="meta">時刻表・路線・走行中バスの取得</span></td>
+<td><ul>
+<li>接続元の IP アドレス</li>
+<li>開発者に発行された API キー</li>
+<li>要求内容（バス停・系統の識別子、日付など）</li>
+</ul></td>
+<td>バスの時刻表・路線・走行位置データの提供</td>
+</tr>
+<tr>
+<td><strong>OpenFreeMap</strong><br><span class="meta">地図の表示</span></td>
+<td><ul>
+<li>接続元の IP アドレス</li>
+<li>表示している地図の範囲を示すタイル座標</li>
+</ul></td>
+<td>地図タイルの配信</td>
+</tr>
+<tr>
+<td><strong>GitHub, Inc.</strong><br><span class="meta">アプリからのお知らせ</span></td>
+<td><ul>
+<li>接続元の IP アドレス</li>
+<li>前回取得時の識別子（ETag）</li>
+</ul></td>
+<td>お知らせの配信</td>
+</tr>
+<tr>
+<td><strong>内閣府</strong><br><span class="meta">祝日カレンダーの更新</span></td>
+<td><ul><li>接続元の IP アドレス</li></ul></td>
+<td>「国民の祝日」CSV の提供</td>
+</tr>
+<tr>
+<td><strong>Apple Inc.</strong><br><span class="meta">アプリの最新版の確認（iOS のみ）</span></td>
+<td><ul>
+<li>接続元の IP アドレス</li>
+<li>本アプリの App Store ID</li>
+</ul></td>
+<td>App Store 上の最新バージョンの照会</td>
+</tr>
+<tr>
+<td><strong>Google LLC ／ Apple Inc.</strong><br><span class="meta">アプリ内課金・更新・不具合の報告</span></td>
+<td><ul>
+<li>購入の有無に関する情報</li>
+<li>アプリのバージョン情報</li>
+<li>クラッシュログ・診断情報</li>
+</ul></td>
+<td>アプリ内課金（広告除去）の処理、アプリの更新、不具合の把握</td>
+</tr>
+</tbody>
+</table>
+
+<h3>送信を止める・制限する方法</h3>
 <ul>
-<li><strong>Android</strong>: 端末の「設定 → Google → 広告」から、広告 ID のリセット、またはパーソナライズ広告の無効化（オプトアウト）が可能です。</li>
-<li><strong>iOS</strong>: 「設定 → プライバシーとセキュリティ → トラッキング」から、アプリによるトラッキングの許可／不許可を管理できます。本アプリ初回起動時に表示される App Tracking Transparency（ATT）のダイアログで「トラッキングしないよう要求」を選ぶこともできます。トラッキングを許可しない場合、パーソナライズされていない広告が表示されることがあります。</li>
-<li>欧州経済領域（EEA）、英国、スイスの利用者に対しては、Google の EU ユーザー同意ポリシーおよび GDPR に基づき、本アプリ内で同意管理プラットフォーム（UMP）を通じて広告に関する同意取得を行います。同意しない場合、パーソナライズされていない広告が表示されることがあります。</li>
-<li>米国カリフォルニア州の利用者は、CCPA に基づく権利を有します。当方は個人情報を「販売」しません。</li>
-<li>「広告を非表示にする」アプリ内課金を購入すると、本アプリ内の広告およびそれに伴う広告関連の通信は行われなくなります。</li>
+<li><strong>広告の送信を止める</strong>: アプリ内課金「広告を非表示にする」を購入すると、広告の表示と、それに伴うアイモバイルへの送信は行われなくなります。</li>
+<li><strong>広告のパーソナライズを止める</strong>:
+  <ul>
+  <li><strong>Android</strong>: 端末の「設定 → Google → 広告」から、広告 ID のリセット、または広告 ID の削除ができます。</li>
+  <li><strong>iOS</strong>: 本アプリの初回起動時に表示される App Tracking Transparency（ATT）の確認で「トラッキングしないよう要求」を選ぶと、IDFA は利用されません。あとから「設定 → プライバシーとセキュリティ → トラッキング」でも変更できます。</li>
+  <li>アイモバイルのオプトアウト窓口: <a href="https://www.i-mobile.co.jp/optout.html">https://www.i-mobile.co.jp/optout.html</a></li>
+  </ul>
+</li>
+<li><strong>位置情報の送信を止める</strong>: 端末の設定から本アプリへの位置情報の許可を取り消すことができます（現在地表示・最寄りバス停の判定は利用できなくなります）。</li>
+<li><strong>データの自動更新を止める</strong>: アプリ内の設定「データ更新」で「しない」を選ぶと、定期的な自動取得を停止できます。</li>
 </ul>
 
 <h2>5. アプリが利用する権限・許可</h2>
 <p>本アプリは、機能の提供に必要な範囲で以下の権限・許可を利用します（プラットフォームにより名称・粒度が異なります）。</p>
 <ul>
-<li><strong>位置情報</strong>（Android: ACCESS_FINE_LOCATION／ACCESS_COARSE_LOCATION、iOS: 使用中のみ許可／常に許可）: 現在地表示・最寄りバス停判定・降車通知に使用します。許可しない場合、これらの機能の一部が利用できません。</li>
-<li><strong>バックグラウンドでの位置利用・前景サービス</strong>（Android: FOREGROUND_SERVICE／FOREGROUND_SERVICE_LOCATION、iOS: バックグラウンド位置情報）: 降車通知のため、アプリを画面に表示していない間も目的地への接近を検知するために使用します。</li>
+<li><strong>位置情報</strong>（Android: ACCESS_FINE_LOCATION／ACCESS_COARSE_LOCATION、iOS: 使用中のみ許可）: 現在地表示・最寄りバス停判定に使用します。<strong>アプリを使用している間のみ</strong>取得します。許可しない場合、これらの機能の一部が利用できません。</li>
+<li><strong>前景サービス</strong>（Android: FOREGROUND_SERVICE／FOREGROUND_SERVICE_DATA_SYNC）: リアルタイム接近通知のため、アプリを画面に表示していない間もバスの走行位置を取得し続けるために使用します。<strong>この前景サービスは位置情報タイプではなく、利用者の位置情報は取得しません。</strong></li>
 <li><strong>通知</strong>（Android: POST_NOTIFICATIONS、iOS: 通知の許可）: 降車・乗り忘れアラームや、お知らせの新着通知の表示に使用します。</li>
-<li><strong>ネットワーク通信</strong>（Android: INTERNET）: 時刻表・路線・バス停・地図データの取得と自動更新、および広告の配信に使用します。</li>
-<li><strong>広告・トラッキング識別子</strong>（Android: AD_ID、iOS: App Tracking Transparency／IDFA）: Google AdMob による広告の配信・効果測定・不正防止に使用します（第1条・第4条参照）。</li>
+<li><strong>ネットワーク通信</strong>（Android: INTERNET／ACCESS_NETWORK_STATE）: 時刻表・路線・バス停・地図データの取得と自動更新、および広告の配信に使用します。</li>
+<li><strong>広告・トラッキング識別子</strong>（Android: AD_ID、iOS: App Tracking Transparency／IDFA）: アイモバイルによる広告の配信・効果測定に使用します（第1条・第4条参照）。</li>
 </ul>
 
 <h2>6. データの保存・保持・削除</h2>
@@ -88,7 +170,7 @@ footer{margin-top:2.4em;color:#666;font-size:.85rem;border-top:1px solid #ddd;pa
 <p>本アプリは一般の利用者向けであり、特に 13 歳未満の子どもを対象として設計・配信されたものではありません。</p>
 
 <h2>9. 本ポリシーの変更</h2>
-<p>当方は、法令の変更やサービス内容の変更に応じて本ポリシーを改定することがあります。重要な変更がある場合は、本ページにて更新日とともに告知します。</p>
+<p>当方は、法令の変更やサービス内容の変更に応じて本ポリシーを改定することがあります。重要な変更がある場合は、本ページにて更新日とともに告知します。<strong>第4条の送信先が増えた場合は、アプリ内でも改めてお知らせします。</strong></p>
 
 <h2>10. お問い合わせ</h2>
 <p>本アプリおよび本ポリシーに関するお問い合わせは、以下までご連絡ください。</p>
