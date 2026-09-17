@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>都道府県大合戦｜47都道府県を制する戦略シミュレーション</title>
+<meta name="description" content="47都道府県を舞台にした、ひとり用の戦略シミュレーション。軍議で兵を整え、隣国へ出撃し、号令で戦場をひっくり返す。無料・広告なし・通信なし・アプリ内課金なし。Android 向けにクローズドテスト中です。">
+<meta name="theme-color" content="#16233f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="都道府県大合戦">
+<meta property="og:description" content="47都道府県を舞台にした、ひとり用の戦略シミュレーション。軍議で兵を整え、隣国へ出撃し、号令で戦場をひっくり返す。">
+<meta property="og:image" content="https://ka-laboratory.github.io/pbg/hero.jpg">
+<meta property="og:url" content="https://ka-laboratory.github.io/prefectural-battle.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="都道府県大合戦">
+<meta name="twitter:description" content="47都道府県を舞台にした、ひとり用の戦略シミュレーション。">
+<meta name="twitter:image" content="https://ka-laboratory.github.io/pbg/hero.jpg">
+<link rel="icon" href="pbg/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#16233f; --navy-d:#0e1830; --navy-l:#23375f;
+  --gold:#a97b12; --gold-l:#f6ecd4; --crimson:#a3342a;
+  /* --ink-3 は 14px の補助テキスト用。クリーム地（#faf5e9）の上で
+     4.5:1 を満たす一番明るいところまで落としてある。これ以上明るくしない。 */
+  --ink:#141a24; --ink-2:#3e4a5c; --ink-3:#59667a;
+  --bg:#ffffff; --bg-2:#faf5e9; --line:#e4e0d2;
+  --s1:8px; --s2:16px; --s3:24px; --s4:40px; --s5:64px; --s6:96px;
+  --r:12px; --r-lg:20px;
+  --wrap:1080px;
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:'Noto Sans JP',-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic UI',sans-serif;
+  font-size:17px; line-height:1.7; letter-spacing:.02em;
+}
+img{max-width:100%; height:auto; display:block;}
+a{color:#8a6410;}
+.wrap{max-width:var(--wrap); margin-inline:auto; padding-inline:var(--s3);}
+.skip{position:absolute; left:-9999px;}
+.skip:focus{left:8px; top:8px; z-index:99; background:#fff; padding:12px 16px; border-radius:8px;}
+
+h1,h2,h3{line-height:1.4; letter-spacing:.01em; margin:0;}
+h2{font-size:32px;}
+h3{font-size:20px; letter-spacing:.02em;}
+p{margin:0;}
+.lede{color:var(--ink-2); font-size:17px;}
+.eyebrow{
+  display:inline-block; font-size:14px; font-weight:700; letter-spacing:.14em;
+  color:var(--gold); margin-bottom:var(--s1);
+}
+section{padding-block:var(--s6);}
+section+section{border-top:1px solid var(--line);}
+
+/* header */
+.bar{
+  position:sticky; top:0; z-index:50; background:rgba(255,255,255,.93);
+  backdrop-filter:saturate(180%) blur(12px); border-bottom:1px solid var(--line);
+}
+.bar .wrap{display:flex; align-items:center; gap:12px; height:64px;}
+.bar img{width:36px; height:36px; border-radius:9px;}
+.bar b{font-size:17px; letter-spacing:.04em;}
+.bar nav{margin-left:auto; display:flex; align-items:center; gap:var(--s2);}
+/* :not(.btn) が要る。無いと `.bar nav a` がボタンの色指定に勝ってしまい、
+   濃紺の上に灰色の文字が乗って読めなくなる。 */
+.bar nav a:not(.btn){color:var(--ink-2); text-decoration:none; font-size:16px;}
+.bar nav a:not(.btn):hover{text-decoration:underline;}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  min-height:48px; padding:0 22px; border-radius:999px;
+  background:var(--navy); color:#fff; text-decoration:none;
+  font-weight:700; font-size:16px; letter-spacing:.02em;
+}
+.btn:hover{background:var(--navy-d);}
+
+/* hero */
+.hero{background:var(--navy); color:#fff; padding-block:var(--s5) var(--s5);}
+.hero h1{font-size:45px; letter-spacing:.04em; margin-bottom:var(--s2);}
+.hero .sub{font-size:20px; color:#d6dcea; line-height:1.7;}
+.tag{
+  display:inline-block; margin-bottom:var(--s2); padding:6px 14px; border-radius:999px;
+  background:#2c4272; color:#ffe9b0; font-size:14px; font-weight:700; letter-spacing:.06em;
+}
+.hero-art{margin-top:var(--s4); border-radius:var(--r-lg); overflow:hidden;
+  box-shadow:0 18px 40px rgba(0,0,0,.35);}
+.facts{
+  display:flex; flex-wrap:wrap; gap:10px; margin-top:var(--s3); padding:0; list-style:none;
+}
+.facts li{
+  background:#22345c; color:#eef2f9; border-radius:999px;
+  padding:7px 16px; font-size:15px; font-weight:700;
+}
+
+/* screens */
+.screens{background:var(--bg-2);}
+.row{display:grid; grid-template-columns:1fr 1fr; gap:var(--s5); align-items:center; margin-top:var(--s4);}
+.row+.row{margin-top:var(--s5); padding-top:var(--s5); border-top:1px solid var(--line);}
+.row.flip .shot{order:2;}
+.shot img{border-radius:var(--r); border:1px solid var(--line); box-shadow:0 10px 28px rgba(20,26,36,.14);}
+.shot figcaption{margin-top:10px; color:var(--ink-3); font-size:14px;}
+.shot{margin:0;}
+.ticks{margin:var(--s2) 0 0; padding:0; list-style:none;}
+.ticks li{position:relative; padding:11px 0 11px 32px; border-bottom:1px solid var(--line); font-size:16px; color:var(--ink-2);}
+.ticks li:last-child{border-bottom:0;}
+.ticks li::before{
+  content:''; position:absolute; left:4px; top:18px; width:8px; height:15px;
+  border-right:3px solid var(--gold); border-bottom:3px solid var(--gold);
+  transform:rotate(45deg);
+}
+
+/* features */
+.feats{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s3); margin-top:var(--s4);}
+.feat{border:1px solid var(--line); border-radius:var(--r-lg); padding:var(--s3); background:#fff;}
+.feat .ic{
+  width:44px; height:44px; border-radius:12px; background:var(--gold-l);
+  display:grid; place-items:center; margin-bottom:12px;
+}
+.feat svg{width:24px; height:24px; fill:none; stroke:#7a5a0c; stroke-width:1.8;
+  stroke-linecap:round; stroke-linejoin:round;}
+.feat b{display:block; font-size:18px; margin-bottom:4px;}
+.feat span{color:var(--ink-2); font-size:16px; line-height:1.7;}
+
+/* test call */
+.test{background:var(--navy); color:#fff;}
+.test h2{font-size:32px;}
+.test .lede{color:#cdd7e8;}
+.test .card{
+  margin-top:var(--s4); background:#1e3054; border:1px solid #33497a;
+  border-radius:var(--r-lg); padding:var(--s4); max-width:760px;
+}
+.test ol{margin:var(--s2) 0 0; padding-left:1.4em; color:#dfe6f2;}
+.test li{padding:6px 0;}
+.test a.mail{
+  display:inline-flex; align-items:center; min-height:52px; padding:0 24px; margin-top:var(--s3);
+  border-radius:999px; background:#ffd98a; color:#3b2a06; font-weight:700; text-decoration:none;
+}
+.test a.mail:hover{background:#ffe7b3;}
+
+/* data */
+.data ul{margin:var(--s3) 0 0; padding:0; list-style:none; max-width:760px;}
+.data li{padding:14px 0; border-top:1px solid var(--line); color:var(--ink-2); font-size:16px;}
+.data li b{color:var(--ink); font-weight:700;}
+.disclaimer{
+  margin-top:var(--s3); padding:var(--s3); border-radius:var(--r);
+  border:1px solid var(--line); background:var(--bg-2);
+  color:var(--ink-2); font-size:15px; line-height:1.8; max-width:760px;
+}
+footer{background:var(--bg-2); border-top:1px solid var(--line); padding-block:var(--s4);}
+footer .wrap{display:flex; flex-wrap:wrap; gap:var(--s2) var(--s3); align-items:center;}
+footer a{color:var(--ink-2);}
+footer small{color:var(--ink-3); margin-left:auto; font-size:14px;}
+
+@media (max-width:860px){
+  body{font-size:16px;}
+  h2{font-size:26px;}
+  section{padding-block:var(--s5);}
+  .hero h1{font-size:30px;}
+  .hero .sub{font-size:17px;}
+  .row{grid-template-columns:1fr; gap:var(--s3);}
+  .row.flip .shot{order:0;}
+  .feats{grid-template-columns:1fr;}
+  .bar nav a.hide-sm{display:none;}
+  .test .card{padding:var(--s3);}
+  footer small{margin-left:0; width:100%;}
+}
+/* フェードは「JSが動いたときだけ」の上乗せ。最初から opacity:0 にすると
+   JS が失敗した端末で中身が永久に見えなくなる。 */
+@media (prefers-reduced-motion:no-preference){
+  html.js .reveal{opacity:0; transform:translateY(12px); transition:opacity .5s ease, transform .5s ease;}
+  html.js .reveal.in{opacity:1; transform:none;}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+
+<header class="bar">
+  <div class="wrap">
+    <img src="pbg/icon.png" alt="">
+    <b>都道府県大合戦</b>
+    <nav>
+      <a class="hide-sm" href="#screens">画面</a>
+      <a class="btn" href="#test">テストに参加する</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero">
+  <div class="wrap">
+    <span class="tag">Android・クローズドテスト参加者募集中</span>
+    <h1>47都道府県を、<br>ひとつにする。</h1>
+    <p class="sub">軍議で兵を整え、隣の県へ出撃し、号令で戦場をひっくり返す。<br>ひとり用の、腰を据えて遊ぶ戦略シミュレーションです。</p>
+    <ul class="facts">
+      <li>無料</li>
+      <li>広告なし</li>
+      <li>アプリ内課金なし</li>
+      <li>通信しません</li>
+      <li>権限の要求なし</li>
+    </ul>
+    <div class="hero-art">
+      <img src="pbg/hero.jpg" width="1024" height="500" fetchpriority="high"
+        alt="タイトルビジュアル。城と桜の手前に赤い甲冑と紫の甲冑の武将が並び、右手に旗の立った日本列島が浮かぶ。">
+    </div>
+  </div>
+</section>
+
+<section class="screens" id="screens">
+  <div class="wrap">
+    <span class="eyebrow">HOW TO PLAY</span>
+    <h2>一日ずつ、国を広げていく</h2>
+    <p class="lede" style="margin-top:8px; max-width:660px;">
+      好きな都道府県からはじめて、軍議で内政を回し、頃合いを見て隣国へ攻め込みます。
+      1日の行動を終えるたびに、他の国も同じように動きます。
+    </p>
+
+    <div class="row">
+      <figure class="shot reveal">
+        <img src="pbg/shot_prefecture.jpg" width="1280" height="720"
+          alt="都道府県を選ぶ画面。日本地図の北海道に印がつき、右側に大将珠「雪嶺（せつれい）」の能力値と強み・弱みが並んでいる。">
+        <figcaption>はじめる県を選ぶ</figcaption>
+      </figure>
+      <div>
+        <h3>47の県、47の大将珠</h3>
+        <p class="lede" style="margin-top:8px;">
+          どの県からはじめるかで、率いる大将珠も、隣り合う国も変わります。
+          得意・不得意がはっきりしているので、同じ手は通じません。
+        </p>
+        <ul class="ticks">
+          <li>県ごとに固有の大将珠と固有技</li>
+          <li>相性のある「形」と「色」</li>
+          <li>難易度は 弱い／普通／強い の3段階</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row flip">
+      <figure class="shot reveal">
+        <img src="pbg/shot_strategy.jpg" width="1280" height="720"
+          alt="軍議の画面。左に所領と部隊の一覧、右に侵攻・移動・雇用・鍛錬・建設・解散の行動ボタンが並ぶ。">
+        <figcaption>軍議（1日の行動を決める）</figcaption>
+      </figure>
+      <div>
+        <h3>軍資金をどこに使うか</h3>
+        <p class="lede" style="margin-top:8px;">
+          兵を雇うか、鍛えるか、建物を建てるか。
+          収入は所領の数と建物で決まるので、攻める前に足場を作るかどうかが毎日の判断になります。
+        </p>
+        <ul class="ticks">
+          <li>雇用・鍛錬・建設・移動・侵攻</li>
+          <li>収入は翌日に入る</li>
+          <li>地図から他国の動きを確認できる</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <figure class="shot reveal">
+        <img src="pbg/shot_map.jpg" width="1280" height="720"
+          alt="全国地図の画面。47都道府県が勢力ごとに色分けされ、右側に44の勢力の一覧が並んでいる。">
+        <figcaption>全国地図（諸国の動き）</figcaption>
+      </figure>
+      <div>
+        <h3>動いているのは、自分だけではない</h3>
+        <p class="lede" style="margin-top:8px;">
+          47の県それぞれに主がいて、こちらが1日を終えるたびに、
+          向こうも兵を雇い、隣を攻めます。地図の色が日ごとに塗り変わっていきます。
+        </p>
+        <ul class="ticks">
+          <li>勢力ごとに色分けされた全国地図</li>
+          <li>勢力を選ぶと、その領土を強調</li>
+          <li>敵県を選んで敵情を確認できる</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row flip">
+      <figure class="shot reveal">
+        <img src="pbg/shot_battle.jpg" width="1280" height="720"
+          alt="戦闘中の画面。草原の戦場で両軍の兵がぶつかり、大将珠の技が光っている。画面下に号令・大将技・指示・停止・撤退のボタンが並ぶ。">
+        <figcaption>戦闘（実際のプレイ画面）</figcaption>
+      </figure>
+      <div>
+        <h3>崩れかけた戦線を、号令で立て直す</h3>
+        <p class="lede" style="margin-top:8px;">
+          戦いは自動で進みますが、見ているだけではありません。
+          押し込むか、守りを固めるか、撤退するか。判断の一手で結果が変わります。
+        </p>
+        <ul class="ticks">
+          <li>出撃のたび、持ち込む号令を2つ選ぶ</li>
+          <li>号令と大将技は、任意のタイミングで</li>
+          <li>分が悪ければ撤退して兵を残す</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">ABOUT</span>
+    <h2>このゲームについて</h2>
+    <div class="feats">
+      <div class="feat">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></span>
+        <b>完全に無料です</b>
+        <span>買い切りでも基本無料でもなく、ただの無料です。アプリ内課金はありません。</span>
+      </div>
+      <div class="feat">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h7"/></svg></span>
+        <b>広告が出ません</b>
+        <span>動画広告もバナーもありません。途中で手が止まることはありません。</span>
+      </div>
+      <div class="feat">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 4v5c0 4.5-3.2 7.9-8 9-4.8-1.1-8-4.5-8-9V7z"/></svg></span>
+        <b>通信しません</b>
+        <span>インターネット権限すら要求していません。機内モードのままで最後まで遊べます。</span>
+      </div>
+      <div class="feat">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg></span>
+        <b>ひとり用です</b>
+        <span>対戦もランキングもありません。自分のペースで、好きなときに進められます。</span>
+      </div>
+      <div class="feat">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 12l9 4 9-4M3 17l9 4 9-4"/></svg></span>
+        <b>保存は端末の中だけ</b>
+        <span>進行状況は端末内にのみ保存されます。アカウント登録もログインもありません。</span>
+      </div>
+      <div class="feat">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5m0 14h16"/><path d="M8 15l3-4 3 3 4-6"/></svg></span>
+        <b>開発中です</b>
+        <span>個人で作っています。テストでいただいたご意見をもとに調整を続けています。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="test" id="test">
+  <div class="wrap">
+    <span class="eyebrow" style="color:#ffd98a;">CLOSED TEST</span>
+    <h2>テストに参加してくださる方を探しています</h2>
+    <p class="lede" style="margin-top:8px; max-width:660px;">
+      Google Play のクローズドテストとして配信しています。
+      参加には、Google Play にログインしている Google アカウントのメールアドレスが必要です。
+    </p>
+    <div class="card reveal">
+      <h3>参加のしかた</h3>
+      <ol>
+        <li>下のボタンから、Google アカウントのメールアドレスを添えてご連絡ください。</li>
+        <li>こちらでテスターとして登録し、参加用のリンクをお送りします。</li>
+        <li>リンクから Google Play を開き、インストールしてお試しください。</li>
+      </ol>
+      <a class="mail" href="mailto:prefectural.battle.games@gmail.com?subject=%E9%83%BD%E9%81%93%E5%BA%9C%E7%9C%8C%E5%A4%A7%E5%90%88%E6%88%A6%20%E3%83%86%E3%82%B9%E3%83%88%E5%8F%82%E5%8A%A0%E5%B8%8C%E6%9C%9B">テスト参加を申し込む</a>
+      <p style="margin-top:var(--s3); color:#b9c6dc; font-size:15px; line-height:1.8;">
+        いただいたメールアドレスは、Google Play のテスター登録と、テストに関するご連絡にのみ使用します。
+        テスト終了後に削除し、ほかの目的には使いません。
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="data">
+  <div class="wrap">
+    <span class="eyebrow">NOTES</span>
+    <h2>ご利用にあたって</h2>
+    <ul>
+      <li><b>対応端末</b>　Android（iOS 版は準備中です）</li>
+      <li><b>画面の向き</b>　横向き</li>
+      <li><b>対象年齢</b>　13歳以上（子ども向けのアプリではありません）</li>
+      <li><b>お問い合わせ</b>　<a href="mailto:prefectural.battle.games@gmail.com">prefectural.battle.games@gmail.com</a></li>
+    </ul>
+    <p class="disclaimer">
+      本ゲームは都道府県の名称を題材にしたフィクションです。実在の自治体・団体・人物とは関係がなく、
+      各都道府県およびその関係機関が監修・提供するものではありません。
+      登場する能力値や勢力の強弱はゲーム上の設定であり、実際の地域とは一切関係ありません。
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="prefectural-battle-privacy.html">プライバシーポリシー</a>
+    <a href="mailto:prefectural.battle.games@gmail.com">お問い合わせ</a>
+    <a href="./">横浜市営バスナビ</a>
+    <small>© 2026 KA-Laboratory ／ 都道府県大合戦</small>
+  </div>
+</footer>
+
+<script>
+// フェードは上乗せの演出。IntersectionObserver が使えない／動きを減らす設定の
+// 環境では、何もせずそのまま表示する（中身が見えなくならないことを優先）。
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+  document.documentElement.classList.add('js');
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -10% 0px' });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
