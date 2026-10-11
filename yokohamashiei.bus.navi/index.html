@@ -1,333 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>横浜市営バスナビ（非公式）｜時刻表・接近情報・ルート検索</title>
-<meta name="description" content="横浜市営バスに特化した非公式バスナビ。バスが今どこにいるか、あと何個前か、何分遅れかがひと目で分かります。時刻表・接近情報・ルート検索・地図・通知。iOS / Android 対応・無料。">
-<meta name="theme-color" content="#0a3d7a">
+<title>横浜市営バスナビ（非公式）｜バスの「今」が、ひと目で。</title>
+<meta name="description" content="横浜市営バスの現在地、接近情報、時刻表をひと目で。お気に入りのバス停から、毎日の移動を確かめる非公式アプリ。iPhone・Android対応。">
+<meta name="theme-color" content="#063b70">
+<link rel="canonical" href="https://ka-laboratory.github.io/yokohamashiei.bus.navi/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="横浜市営バスナビ（非公式）">
-<meta property="og:description" content="バスが今どこにいるか、あと何個前か、何分遅れか。横浜市営バスに特化した非公式バスナビ。">
-<meta property="og:image" content="https://ka-laboratory.github.io/yokohamashiei.bus.navi/icon.png">
+<meta property="og:description" content="バスの「今」が、ひと目で。">
 <meta property="og:url" content="https://ka-laboratory.github.io/yokohamashiei.bus.navi/">
-<link rel="canonical" href="https://ka-laboratory.github.io/yokohamashiei.bus.navi/">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://ka-laboratory.github.io/yokohamashiei.bus.navi/icon.png">
+<meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@ybn_no_official">
-<meta name="twitter:title" content="横浜市営バスナビ（非公式）">
-<meta name="twitter:description" content="バスが今どこにいるか、あと何個前か、何分遅れか。横浜市営バスに特化した非公式バスナビ。">
 <meta name="twitter:image" content="https://ka-laboratory.github.io/yokohamashiei.bus.navi/icon.png">
 <link rel="icon" href="icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --navy:#0a3d7a; --navy-d:#062a56; --blue:#1275be; --blue-l:#e8f1fa;
-  --cream:#ecdeb6; --amber:#c47a10;
-  /* --ink-3 は 14px の補助テキストに使う。#6b7a8c だと薄い背景の上で
-     コントラスト比 4.09〜4.39 にしかならず WCAG AA(4.5:1) を満たさなかった。 */
-  --ink:#14181f; --ink-2:#42505f; --ink-3:#5c6b7d;
-  --bg:#ffffff; --bg-2:#f5f7fa; --line:#e2e8f0;
-  --s1:8px; --s2:16px; --s3:24px; --s4:40px; --s5:64px; --s6:96px;
-  --r:12px; --r-lg:20px;
-  --wrap:1080px;
-}
-*{box-sizing:border-box;}
-html{-webkit-text-size-adjust:100%;}
-body{
-  margin:0; background:var(--bg); color:var(--ink);
-  font-family:'Noto Sans JP',-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic UI',sans-serif;
-  font-size:17px; line-height:1.7; letter-spacing:.02em;
-  font-feature-settings:'palt' 0;
-}
-img{max-width:100%; height:auto; display:block;}
-a{color:#0d5aa7;}
-.wrap{max-width:var(--wrap); margin-inline:auto; padding-inline:var(--s3);}
-.skip{position:absolute; left:-9999px;}
-.skip:focus{left:8px; top:8px; z-index:99; background:#fff; padding:12px 16px; border-radius:8px;}
-
-h1,h2,h3{line-height:1.4; letter-spacing:.01em; margin:0;}
-h2{font-size:32px;}
-h3{font-size:20px; letter-spacing:.02em;}
-p{margin:0;}
-.lede{color:var(--ink-2); font-size:17px;}
-.eyebrow{
-  display:inline-block; font-size:14px; font-weight:700; letter-spacing:.14em;
-  color:var(--blue); margin-bottom:var(--s1);
-}
-section{padding-block:var(--s6);}
-section+section{border-top:1px solid var(--line);}
-
-/* header */
-.bar{
-  position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92);
-  backdrop-filter:saturate(180%) blur(12px); border-bottom:1px solid var(--line);
-}
-.bar .wrap{display:flex; align-items:center; gap:12px; height:64px;}
-.bar img{width:36px; height:36px; border-radius:9px;}
-.bar b{font-size:17px; letter-spacing:.02em;}
-.bar nav{margin-left:auto; display:flex; align-items:center; gap:var(--s2);}
-/* :not(.btn) が要る。これが無いと `.bar nav a`（詳細度0,1,2）が
-   `.btn`（0,1,0）に勝ってしまい、ボタンの文字が灰色になって
-   濃紺の上でコントラスト比1.6:1まで落ちる（読めない＝無効に見える）。 */
-.bar nav a:not(.btn){color:var(--ink-2); text-decoration:none; font-size:16px;}
-.bar nav a:not(.btn):hover{text-decoration:underline;}
-.btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  min-height:48px; padding:0 22px; border-radius:999px;
-  background:var(--navy); color:#fff; text-decoration:none;
-  font-weight:700; font-size:16px; letter-spacing:.02em;
-}
-.btn:hover{background:var(--navy-d);}
-.btn.ghost{background:#fff; color:var(--navy); border:2px solid var(--navy);}
-.btn.ghost:hover{background:var(--blue-l);}
-
-/* hero */
-.hero{background:linear-gradient(180deg,#f3f7fc 0%,#ffffff 100%); padding-block:var(--s5) var(--s6);}
-.hero .wrap{display:grid; grid-template-columns:1fr 300px; gap:var(--s5); align-items:center;}
-.hero h1{font-size:45px; letter-spacing:0; margin-bottom:var(--s2);}
-.hero .sub{font-size:20px; color:var(--ink-2); line-height:1.6;}
-.tag{
-  display:inline-block; margin-bottom:var(--s2); padding:6px 14px; border-radius:999px;
-  background:var(--blue-l); color:#0b4d8f; font-size:14px; font-weight:700; letter-spacing:.04em;
-}
-.cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:var(--s3);}
-.store{
-  display:inline-flex; align-items:center; gap:10px; min-height:56px; padding:0 20px;
-  background:var(--ink); color:#fff; border-radius:12px; text-decoration:none;
-}
-.store svg{width:24px; height:24px; fill:currentColor; flex:none;}
-.store span{display:block; font-size:11px; opacity:.8; line-height:1.2;}
-.store strong{display:block; font-size:17px; line-height:1.3; letter-spacing:.02em;}
-.free{margin-top:12px; color:var(--ink-3); font-size:14px;}
-
-/* phone */
-.phone{
-  border:10px solid #10151c; border-radius:34px; overflow:hidden;
-  box-shadow:0 18px 40px rgba(10,40,80,.18); background:#10151c;
-}
-.phone img{width:100%;}
-
-/* proof (card close-up) */
-.proof{background:var(--bg-2);}
-.card-shot{margin:var(--s4) 0 0; max-width:620px;}
-.card-shot img{border-radius:var(--r); border:1px solid var(--line); box-shadow:0 10px 28px rgba(10,40,80,.10);}
-.card-shot figcaption{margin-top:12px; color:var(--ink-3); font-size:14px;}
-
-/* map row */
-.map-row{display:grid; grid-template-columns:300px 1fr; gap:var(--s5); align-items:center; margin-top:var(--s4);}
-.ticks{margin:0; padding:0; list-style:none;}
-.ticks li{position:relative; padding:12px 0 12px 34px; border-bottom:1px solid var(--line); font-size:17px;}
-.ticks li:last-child{border-bottom:0;}
-.ticks li::before{
-  content:''; position:absolute; left:4px; top:19px; width:9px; height:16px;
-  border-right:3px solid var(--blue); border-bottom:3px solid var(--blue);
-  transform:rotate(45deg);
-}
-
-/* new */
-.new{background:var(--bg-2);}
-.new .card{
-  background:#fff; border:1px solid var(--line); border-radius:var(--r-lg);
-  padding:var(--s4); max-width:760px;
-}
-.ver{
-  display:inline-block; background:var(--navy); color:#fff; border-radius:999px;
-  padding:4px 14px; font-size:14px; font-weight:700; letter-spacing:.04em;
-}
-.new ul{margin:var(--s3) 0 0; padding:0; list-style:none;}
-.new li{padding:var(--s2) 0; border-top:1px solid var(--line);}
-.new li b{display:block; font-size:17px; margin-bottom:2px;}
-.new li span{color:var(--ink-2); font-size:16px;}
-.note{
-  margin-top:var(--s3); padding:var(--s2); border-radius:var(--r);
-  background:var(--blue-l); color:#0b4d8f; font-size:15px; line-height:1.7;
-}
-
-/* past releases — 最新より一段弱く見せる（余白と文字サイズで階層をつくる） */
-.past-h{margin:var(--s5) 0 var(--s3); font-size:18px; color:var(--ink-2);}
-.past{display:grid; gap:var(--s3); max-width:760px;}
-.past-item{background:#fff; border:1px solid var(--line); border-radius:var(--r); padding:var(--s3);}
-.ver-sm{font-size:13px; padding:3px 12px; background:var(--ink-2);}
-.past ul{margin:var(--s2) 0 0; padding:0; list-style:none;}
-.past li{padding:10px 0; border-top:1px solid var(--line);}
-.past li:first-child{border-top:0; padding-top:0;}
-.past li b{display:block; font-size:16px;}
-.past li span{display:block; color:var(--ink-2); font-size:15px; line-height:1.7; margin-top:2px;}
-
-/* features */
-.feats{display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s3); margin-top:var(--s4);}
-.feat{border:1px solid var(--line); border-radius:var(--r-lg); padding:var(--s3);}
-.feat .ic{
-  width:44px; height:44px; border-radius:12px; background:var(--blue-l);
-  display:grid; place-items:center; margin-bottom:12px;
-}
-.feat svg{width:24px; height:24px; fill:none; stroke:var(--navy); stroke-width:1.8;
-  stroke-linecap:round; stroke-linejoin:round;}
-.feat b{display:block; font-size:18px; margin-bottom:4px;}
-.feat span{color:var(--ink-2); font-size:16px; line-height:1.7;}
-
-/* sns — auto-fit にしてあるので専用のメディアクエリは要らない
-   （4→2→1 列に自然に折り返す）。 */
-.sns{
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:var(--s3); margin-top:var(--s4);
-}
-.sns a{
-  display:flex; align-items:center; gap:14px; min-height:88px;
-  border:1px solid var(--line); border-radius:var(--r-lg); padding:var(--s3);
-  background:#fff; text-decoration:none; color:var(--ink);
-}
-.sns a:hover{background:var(--blue-l); border-color:var(--navy);}
-.sns .ic{
-  width:44px; height:44px; border-radius:12px; background:var(--blue-l);
-  display:grid; place-items:center; flex:none;
-}
-.sns a:hover .ic{background:#fff;}
-.sns svg{width:22px; height:22px; fill:var(--navy);}
-.sns b{display:block; font-size:17px; letter-spacing:.02em;}
-.sns span{display:block; color:var(--ink-3); font-size:14px; line-height:1.5;}
-
-/* closing cta */
-.closing{background:var(--navy); color:#fff; text-align:center;}
-.closing h2{font-size:32px;}
-.closing .lede{color:#c9dcf0;}
-
-/* data */
-.data ul{margin:var(--s3) 0 0; padding:0; list-style:none; max-width:760px;}
-.data li{padding:14px 0; border-top:1px solid var(--line); color:var(--ink-2); font-size:16px;}
-.data li b{color:var(--ink); font-weight:700;}
-
-.disclaimer{
-  margin-top:var(--s3); padding:var(--s3); border-radius:var(--r);
-  border:1px solid var(--line); background:var(--bg-2);
-  color:var(--ink-2); font-size:15px; line-height:1.8; max-width:760px;
-}
-footer{background:var(--bg-2); border-top:1px solid var(--line); padding-block:var(--s4);}
-footer .wrap{display:flex; flex-wrap:wrap; gap:var(--s2) var(--s3); align-items:center;}
-footer a{color:var(--ink-2);}
-footer small{color:var(--ink-3); margin-left:auto; font-size:14px;}
-
-@media (max-width:860px){
-  body{font-size:16px;}
-  h2{font-size:26px;}
-  section{padding-block:var(--s5);}
-  .hero .wrap{grid-template-columns:1fr; gap:var(--s4);}
-  .hero h1{font-size:32px;}
-  .hero .sub{font-size:17px;}
-  .hero .phone{max-width:280px; margin-inline:auto;}
-  .feats{grid-template-columns:1fr;}
-  .map-row{grid-template-columns:1fr; gap:var(--s3);}
-  .map-row .phone{max-width:280px; margin-inline:auto;}
-  .bar nav a.hide-sm{display:none;}
-  .new .card{padding:var(--s3);}
-  footer small{margin-left:0; width:100%;}
-}
-/* フェードは「JSが動いたときだけ」の上乗せにする。
-   最初から opacity:0 にすると、JSが失敗した端末で中身が永久に見えなくなる。 */
-@media (prefers-reduced-motion:no-preference){
-  html.js .reveal{opacity:0; transform:translateY(12px); transition:opacity .5s ease, transform .5s ease;}
-  html.js .reveal.in{opacity:1; transform:none;}
-}
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <a class="skip" href="#main">本文へ移動</a>
-
-<header class="bar">
-  <div class="wrap">
-    <img src="icon.png" alt="">
-    <b>横浜市営バスナビ</b>
-    <nav>
-      <a class="hide-sm" href="guide.html">使い方ガイド</a>
-      <a class="btn" href="#get">入手する</a>
-    </nav>
-  </div>
-</header>
-
+<header class="header"><div class="wrap bar">
+<a class="brand" href="./"><img src="icon.png" width="44" height="44" alt=""><span>横浜市営バスナビ<small>非公式アプリ</small></span></a>
+<nav aria-label="メイン"><a href="#screens">画面を見る</a><a href="guide.html">使い方</a><a class="nav-download" href="#download">ダウンロード</a></nav>
+</div></header>
 <main id="main">
-
 <section class="hero">
-  <div class="wrap">
-    <div>
-      <span class="tag">横浜市営バス専用・非公式</span>
-      <h1>あのバス、<br>今どこにいる？</h1>
-      <p class="sub">バスの現在地、あと何個前か、何分遅れか。<br>横浜市営バスの「今」だけを、まっすぐ表示します。</p>
-      <div class="cta" id="get">
-        <a class="store" href="https://apps.apple.com/jp/app/id6786124457">
-          <svg viewBox="0 0 24 24"><path d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.8c-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.3 2.9 2.2 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.2.9-1.3 1.3-2.5 1.3-2.6 0 0-2.5-1-2.5-3.5zM14.2 5.9c.6-.8 1-1.9.9-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.8-1.3z"/></svg>
-          <span class="t"><span>ダウンロード</span><strong>App Store</strong></span>
-        </a>
-        <a class="store" href="https://play.google.com/store/apps/details?id=com.yokohamashieibusnavi.app">
-          <svg viewBox="0 0 24 24"><path d="M4 3.2v17.6c0 .5.5.9 1 .6l12.6-8.8c.4-.3.4-.9 0-1.2L5 2.6c-.5-.3-1 .1-1 .6z"/></svg>
-          <span class="t"><span>ダウンロード</span><strong>Google Play</strong></span>
-        </a>
-      </div>
-      <p class="free">無料・iOS / Android 対応</p>
-    </div>
-    <div class="phone">
-      <img src="shots/approach_live.jpg" width="640" height="1108" fetchpriority="high"
-           alt="接近情報の画面。三の谷バス停に向かう101系統・058系統のバスが、あと何個前かと混雑状況とともに並んでいる。">
-    </div>
-  </div>
+<div class="wrap hero-grid">
+<div class="hero-copy">
+<p class="intro">いつものバス停から、横浜の街へ。</p>
+<h1>バスの「今」が、<br>ひと目で。</h1>
+<p class="lead">あと何個前？ 今どこを走っている？<br>横浜市営バスの接近情報と時刻表を、<br class="desktop-break">いつもの移動のそばに。</p>
+<div class="downloads" id="download">
+<a class="download" href="https://apps.apple.com/jp/app/id6786124457"><span>iPhoneで使う</span><strong>App Store</strong></a>
+<a class="download" href="https://play.google.com/store/apps/details?id=com.yokohamashieibusnavi.app"><span>Androidで使う</span><strong>Google Play</strong></a>
+</div>
+<p class="fine">無料でダウンロードできます</p>
+<a class="text-link" href="#screens">実際の画面を見る ↓</a>
+</div>
+<figure class="hero-visual">
+<svg class="route" viewBox="0 0 600 650" aria-hidden="true"><circle cx="310" cy="320" r="260" fill="#deedfa"/><path d="M-20 470C130 470 90 110 300 130S400 570 620 240" fill="none" stroke="#87b9e3" stroke-width="7"/><circle cx="88" cy="352" r="13" fill="#1275be" stroke="white" stroke-width="5"/><circle cx="535" cy="363" r="13" fill="#1275be" stroke="white" stroke-width="5"/></svg>
+<div class="device"><div class="device-top" aria-hidden="true"><i></i></div><img src="shots/approach_live.jpg" width="640" height="1108" fetchpriority="high" alt="三の谷バス停の接近情報。バスの位置が何個前か、混雑状況とともに表示されています。"><div class="device-bottom" aria-hidden="true"></div></div>
+<figcaption>接近情報の実画面</figcaption>
+</figure>
+</div>
 </section>
-
-<section class="proof">
-  <div class="wrap">
-    <span class="eyebrow">POINT</span>
-    <h2>「あと2分」まで分かります</h2>
-    <p class="lede" style="margin-top:8px; max-width:640px;">
-      定刻だけでなく、そのバスが今どこを走っているかから逆算します。
-      遅れているときは、定刻に取り消し線を引いて実際の見込み時刻を出します。
-    </p>
-    <figure class="card-shot reveal">
-      <img src="shots/favorites.jpg" width="640" height="508"
-        alt="お気に入りカードの拡大。目安18時22分の桜木町駅前行きは1個前を出発してあと2分、定刻18時31分のみなと赤十字病院行きは取り消し線が引かれ18時34分と表示されている。">
-      <figcaption>お気に入り画面のカード（拡大）</figcaption>
-    </figure>
-  </div>
+<div class="scope"><div class="wrap"><p>横浜市営バス専用</p><p>iPhone・Android 対応</p><p>個人が開発した非公式アプリ</p></div></div>
+<section class="screen-section" id="screens">
+<div class="wrap split">
+<div class="section-copy"><p class="section-label">接近情報</p><h2>「あと何個前」を、<br>迷わず確かめる。</h2><p>バス停に向かうバスが、どこまで来ているか。行き先・遅れ・混雑状況をまとめて確認できます。</p><a class="text-link" href="shots/approach_live.jpg">画面を大きく見る</a></div>
+<figure class="detail-shot"><div class="device"><div class="device-top" aria-hidden="true"><i></i></div><img src="shots/approach_live.jpg" width="640" height="1108" loading="lazy" alt="接近情報の一覧。101系統は3個前を出発、058系統は10個前を出発と表示。"><div class="device-bottom" aria-hidden="true"></div></div><figcaption>画像は撮影時点の表示例です。</figcaption></figure>
+</div>
 </section>
-
-<section>
-  <div class="wrap">
-    <span class="eyebrow">MAP</span>
-    <h2>走っているバスが、地図に出ます</h2>
-    <p class="lede" style="margin-top:8px; max-width:640px;">
-      車体の塗装まで描き分けているので、「あかいくつ」やベイサイドブルーもひと目で分かります。
-      進行方向に合わせて、バスの向きも変わります。
-    </p>
-    <div class="map-row">
-      <div class="phone reveal"><img src="shots/map.jpg" width="640" height="1108"
-        alt="地図画面。横浜駅からみなとみらい周辺の地図に、走行中の横浜市営バスが車体の塗装つきで並んでいる。"></div>
-      <ul class="ticks">
-        <li>走っているバスの現在地</li>
-        <li>のりばの位置と方面</li>
-        <li>現在地と、近くのバス停</li>
-        <li>鉄道駅（事業者ごとの色）</li>
-        <li>渋滞している区間</li>
-      </ul>
-    </div>
-  </div>
+<section class="map-section">
+<div class="wrap split map-grid">
+<figure class="map-visual"><div class="device"><div class="device-top" aria-hidden="true"><i></i></div><img src="shots/map.jpg" width="640" height="1233" loading="lazy" alt="横浜駅からみなとみらい周辺の地図に、走行中のバスとバス停が表示されています。"><div class="device-bottom" aria-hidden="true"></div></div><figcaption>地図の実画面</figcaption></figure>
+<div class="section-copy"><p class="section-label">地図</p><h2>横浜の街を走る<br>バスが、見える。</h2><p>走行中のバスと、のりばの位置を地図で確認。車体の塗装と進行方向まで描き分けています。</p><ul class="check-list"><li>バスの現在地と進行方向</li><li>のりばの位置と方面</li><li>現在地・鉄道駅・渋滞している区間</li></ul><a class="text-link" href="shots/map.jpg">地図画面を大きく見る</a></div>
+</div>
 </section>
-
-<section class="new">
-  <div class="wrap">
-    <span class="eyebrow">WHAT'S NEW</span>
+<section class="favorites-section">
+<div class="wrap"><div class="favorite-heading"><p class="section-label">お気に入り</p><h2>いつものバス停を、<br>いつもの場所に。</h2><p>よく使うバス停をまとめて登録。<br>見込みの時刻と接近情報を、一度に確かめられます。</p></div>
+<figure class="favorite-shot"><img src="shots/favorites.jpg" width="640" height="400" loading="lazy" alt="お気に入りのバス停カード。見込みの時刻と、バスがあと何個前かをまとめて表示。"><figcaption>お気に入りカードの実画面</figcaption></figure>
+</div>
+</section>
+<section class="features-section"><div class="wrap"><h2>毎日の移動に必要なことを。</h2>
+<div class="features">
+<article><h3>時刻表</h3><p>のりば・方面・系統ごとに表示。通信がなくても開けます。</p></article>
+<article><h3>ルート検索</h3><p>出発・到着・始発・最終から、バスのルートを探せます。</p></article>
+<article><h3>通知・アラーム</h3><p>乗り忘れ・降り過ごしを、遅れ込みでお知らせします。</p></article>
+</div><a class="text-link" href="guide.html">使い方ガイドを読む</a></div></section>
+<section class="start-section"><div class="wrap start"><img src="icon.png" width="96" height="96" loading="lazy" alt=""><div><h2>次のバスから、使ってみる。</h2><p>よく使うバス停を、ひとつ登録するところから。</p><a class="button" href="#download">ダウンロード先を選ぶ</a></div></div></section>
+<section class="updates-section"><div class="wrap"><h2>更新情報</h2><p>アプリの改善内容と、これまでの更新をご覧いただけます。</p><details><summary>最新アップデートと過去の改善を見る</summary><div class="update-content" id="update-content"><span class="eyebrow">WHAT'S NEW</span>
     <h2>最新アップデート</h2>
     <div class="card reveal" style="margin-top:var(--s3);">
-      <span class="ver">v13.3.0</span>
+      <span class="ver">v13.4.0</span>
       <ul>
-        <li><b>見守りはアラームを掛けた便だけに（Android版）</b><span>同じ系統の1本前のバスに「そろそろ出発」が出ることがあったのを、時刻表の予定時刻で便を見分けるようにして直しました。</span></li>
-        <li><b>設定の「通知タイミング」がアラームに効くように</b><span>設定画面で選んだ「何分前」「何個前」が、新しく作るアラームに反映されていなかったのを直しました。</span></li>
-        <li><b>お気に入りの方面が消える不具合を修正</b><span>「＋」で登録済みの方面を選ぶと消えていたのを直し、「すでに登録されています」とお知らせするようにしました。</span></li>
-        <li><b>深夜・土休日ダイヤのアラームを正しく</b><span>土曜・休日の時刻表から作ったアラームや、深夜0時台に前日の遅れた便へ掛けたアラームの日付を直しました。</span></li>
-        <li><b>深夜0〜4時のルート検索は前日のダイヤで</b><span>終バスまでの時間帯は、前日の運行日のダイヤで検索するようにしました。</span></li>
+        <li><b>ルート検索の「最終」が本当の最終便に</b><span>乗換のルート検索で「最終」を選ぶと、昼ごろの便が出ていたのを直しました。</span></li>
+        <li><b>「到着」の時刻指定を正しく</b><span>到着時刻を指定したときに、指定より後に着く乗換が出ていたのを直しました。</span></li>
+        <li><b>深夜0〜4時の指定は前日の深夜ダイヤで</b><span>深夜の時刻を指定したルート検索を、前日の深夜ダイヤとして探すようにしました。</span></li>
+        <li><b>「そろそろ出発」の重複通知を修正</b><span>乗車アラームの通知が、遅れの見込みが変わるたびに何度も届いていたのを直しました。</span></li>
+        <li><b>時刻表の「次の便」が進むように</b><span>時刻表を開いたままにすると「次の便」が古い時刻のままだったのを直しました。</span></li>
+        <li><b>地図の渋滞の色と走行中バスを修正</b><span>渋滞の色分けと凡例の数字のずれ、走行中のバスの位置が戻ったりタップで選べなかったりした不具合を直しました。</span></li>
       </ul>
     </div>
 
     <h3 class="past-h">これまでの改善</h3>
     <div class="past reveal">
+      <div class="past-item">
+        <span class="ver ver-sm">v13.3.0</span>
+        <ul>
+          <li><b>見守りはアラームを掛けた便だけに（Android版）</b><span>同じ系統の1本前のバスに「そろそろ出発」が出ることがあったのを、時刻表の予定時刻で便を見分けるようにして直しました。</span></li>
+          <li><b>設定の「通知タイミング」がアラームに効くように</b><span>設定画面で選んだ「何分前」「何個前」が、新しく作るアラームに反映されていなかったのを直しました。</span></li>
+          <li><b>お気に入りの方面が消える不具合を修正</b><span>「＋」で登録済みの方面を選ぶと消えていたのを直し、「すでに登録されています」とお知らせするようにしました。</span></li>
+          <li><b>深夜・土休日ダイヤのアラームを正しく</b><span>土曜・休日の時刻表から作ったアラームや、深夜0時台に前日の遅れた便へ掛けたアラームの日付を直しました。</span></li>
+          <li><b>深夜0〜4時のルート検索は前日のダイヤで</b><span>終バスまでの時間帯は、前日の運行日のダイヤで検索するようにしました。</span></li>
+        </ul>
+      </div>
       <div class="past-item">
         <span class="ver ver-sm">v13.2.0</span>
         <ul>
@@ -423,114 +191,11 @@ footer small{color:var(--ink-3); margin-left:auto; font-size:14px;}
         </ul>
       </div>
     </div>
-    <p class="note" style="max-width:760px;">これまでの更新の全履歴は、アプリ内メニューの「お知らせ」からご覧いただけます。</p>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <span class="eyebrow">FEATURES</span>
-    <h2>できること</h2>
-    <div class="feats">
-      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><b>時刻表</b><span>のりば・方面・系統ごとに表示。通信がなくても開けます。</span></div>
-      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M5 17h14M6 17V9a6 6 0 0 1 12 0v8M9 21h6"/></svg></div><b>接近情報</b><span>今どこ？ 何個前？ 遅れと混雑もあわせて。</span></div>
-      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div><b>地図</b><span>走っているバス、のりば、現在地、鉄道駅。</span></div>
-      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div><b>ルート検索</b><span>出発・到着・始発・最終から探せます。</span></div>
-      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.2l5.9-.9z"/></svg></div><b>お気に入り</b><span>よく使うバス停をまとめて確認。</span></div>
-      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg></div><b>通知・アラーム</b><span>乗り忘れ・降り過ごしを、遅れ込みでお知らせ。</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="closing">
-  <div class="wrap">
-    <h2>次のバス、待たずに確かめる</h2>
-    <p class="lede" style="margin-top:12px;">無料で使えます。よく使うバス停をひとつ登録するところから。</p>
-    <div class="cta" style="justify-content:center; margin-top:var(--s3);">
-      <a class="store" href="https://apps.apple.com/jp/app/id6786124457">
-        <svg viewBox="0 0 24 24"><path d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9s-1.8-.9-3-.8c-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.3 2.9 2.2 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.2.9-1.3 1.3-2.5 1.3-2.6 0 0-2.5-1-2.5-3.5zM14.2 5.9c.6-.8 1-1.9.9-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.8-1.3z"/></svg>
-        <span class="t"><span>ダウンロード</span><strong>App Store</strong></span>
-      </a>
-      <a class="store" href="https://play.google.com/store/apps/details?id=com.yokohamashieibusnavi.app">
-        <svg viewBox="0 0 24 24"><path d="M4 3.2v17.6c0 .5.5.9 1 .6l12.6-8.8c.4-.3.4-.9 0-1.2L5 2.6c-.5-.3-1 .1-1 .6z"/></svg>
-        <span class="t"><span>ダウンロード</span><strong>Google Play</strong></span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <span class="eyebrow">SNS</span>
-    <h2>更新情報を発信しています</h2>
-    <p class="lede" style="margin-top:8px; max-width:640px;">
-      アップデートのお知らせ、使い方の小ネタ、横浜のバスにまつわる話を投稿しています。
-      ご意見・不具合のご報告も、SNSのリプライやコメントで受け付けています。
-    </p>
-    <div class="sns reveal">
-      <a href="https://x.com/ybn_no_official" rel="me noopener">
-        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2.3h3.1l-6.8 7.8 8 10.6h-6.3l-4.9-6.4-5.6 6.4H3.2l7.3-8.4L2.8 2.3h6.4l4.5 5.9 5.2-5.9zm-1.1 16.4h1.7L7.3 3.9H5.5l12.3 14.8z"/></svg></span>
-        <span><b>X</b><span>@ybn_no_official</span></span>
-      </a>
-      <a href="https://www.youtube.com/channel/UC0FF5myMKuXSec-K3IkFAyA" rel="noopener">
-        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 7.5a2.9 2.9 0 0 0-2-2.1C19.1 4.9 12 4.9 12 4.9s-7.1 0-8.9.5A2.9 2.9 0 0 0 1 7.5C.5 9.4.5 12 .5 12s0 2.6.5 4.5a2.9 2.9 0 0 0 2.1 2.1c1.8.5 8.9.5 8.9.5s7.1 0 8.9-.5a2.9 2.9 0 0 0 2.1-2.1c.5-1.9.5-4.5.5-4.5s0-2.6-.5-4.5zM9.8 15.5v-7l5.9 3.5-5.9 3.5z"/></svg></span>
-        <span><b>YouTube</b><span>横浜市営バスナビ</span></span>
-      </a>
-      <a href="https://www.instagram.com/ybn_no_official/" rel="noopener">
-        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.8s0 3.5-.1 4.8c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.8s0-3.5.1-4.8c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zm0 3.1A6.7 6.7 0 1 0 18.7 12 6.7 6.7 0 0 0 12 5.3zm0 11.1A4.4 4.4 0 1 1 16.4 12 4.4 4.4 0 0 1 12 16.4zm6.9-11.3a1.6 1.6 0 1 1-1.6-1.6 1.6 1.6 0 0 1 1.6 1.6z"/></svg></span>
-        <span><b>Instagram</b><span>@ybn_no_official</span></span>
-      </a>
-      <a href="https://www.tiktok.com/@ybn_no_official" rel="noopener">
-        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.8 5.6a4.9 4.9 0 0 1-1.2-2.9h-3.1v12.4a2.9 2.9 0 1 1-2.1-2.8V9.1a5.9 5.9 0 1 0 5.2 5.9V9a7.8 7.8 0 0 0 4.6 1.4V7.3a4.9 4.9 0 0 1-3.4-1.7z"/></svg></span>
-        <span><b>TikTok</b><span>@ybn_no_official</span></span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="data">
-  <div class="wrap">
-    <span class="eyebrow">DATA</span>
-    <h2>データと出典</h2>
-    <ul>
-      <li><b>時刻表・路線・運行データ</b>　公共交通オープンデータセンター（ODPT）／横浜市交通局</li>
-      <li><b>地図</b>　<a href="https://openfreemap.org/">OpenFreeMap</a> ／ OpenMapTiles ／ © OpenStreetMap contributors（描画: MapLibre）</li>
-      <li><b>鉄道駅データ</b>　<a href="https://express.heartrails.com/">HeartRails Express</a></li>
-      <li><b>祝日データ</b>　内閣府</li>
-    </ul>
-    <p class="disclaimer">本アプリは横浜市交通局が提供する公式アプリではありません。個人が開発した<b>非公式アプリ</b>です。運行情報は公開データをもとに表示しており、実際の運行と異なる場合があります。ご利用の際は現地の案内表示もあわせてご確認ください。</p>
-  </div>
-</section>
-
+    <p class="note" style="max-width:760px;">これまでの更新の全履歴は、アプリ内メニューの「お知らせ」からご覧いただけます。</p></div></details></div></section>
+<section class="data-section"><div class="wrap"><h2>データと出典</h2>
+<ul><li>時刻表・路線・運行データ：公共交通オープンデータセンター（ODPT）／横浜市交通局</li><li>地図：<a href="https://openfreemap.org/">OpenFreeMap</a> ／ OpenMapTiles ／ © OpenStreetMap contributors（描画：MapLibre）</li><li>鉄道駅データ：<a href="https://express.heartrails.com/">HeartRails Express</a></li><li>祝日データ：内閣府</li></ul>
+<p class="disclaimer">本アプリは横浜市交通局が提供する公式アプリではありません。個人が開発した非公式アプリです。運行情報は公開データをもとに表示しており、実際の運行と異なる場合があります。ご利用の際は現地の案内表示もあわせてご確認ください。</p>
+</div></section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <a href="guide.html">使い方ガイド</a>
-    <a href="privacy.html">プライバシーポリシー</a>
-    <a href="mailto:yokohamashiei.bus.navi@gmail.com">お問い合わせ</a>
-    <a href="https://x.com/ybn_no_official" rel="me noopener">X</a>
-    <a href="https://www.youtube.com/channel/UC0FF5myMKuXSec-K3IkFAyA" rel="noopener">YouTube</a>
-    <a href="https://www.instagram.com/ybn_no_official/" rel="noopener">Instagram</a>
-    <a href="https://www.tiktok.com/@ybn_no_official" rel="noopener">TikTok</a>
-    <small>© 2026 KA-Laboratory ／ 横浜市営バスナビ（非公式）</small>
-  </div>
-</footer>
-
-<script>
-// フェードは上乗せの演出。IntersectionObserver が使えない/動きを減らす設定の
-// 環境では、何もせずそのまま表示する（中身が見えなくならないことを優先）。
-(function () {
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce || !('IntersectionObserver' in window)) return;
-  document.documentElement.classList.add('js');
-  var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { rootMargin: '0px 0px -10% 0px' });
-  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
-})();
-</script>
-</body>
-</html>
+<footer><div class="wrap"><p class="footer-brand">横浜市営バスナビ（非公式）</p><nav aria-label="関連リンク"><a href="guide.html">使い方ガイド</a><a href="privacy.html">プライバシーポリシー</a><a href="mailto:yokohamashiei.bus.navi@gmail.com">お問い合わせ</a><a href="https://x.com/ybn_no_official" rel="me noopener">X</a><a href="https://www.youtube.com/channel/UC0FF5myMKuXSec-K3IkFAyA">YouTube</a><a href="https://www.instagram.com/ybn_no_official/">Instagram</a><a href="https://www.tiktok.com/@ybn_no_official">TikTok</a></nav><small>© 2026 KA-Laboratory</small></div></footer>
+</body></html>
